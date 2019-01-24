@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import "bootstrap";
+import "jquery";
 
 @Component({
   selector: 'app-root',
