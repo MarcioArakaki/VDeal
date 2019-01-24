@@ -5,11 +5,15 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class MakeService {
+export class VehicleService {
 
   constructor(private http: HttpClient) { }
 
   getMakes(){
     return this.http.get<any[]>('/api/makes');
+  }
+
+  getFeatures(){
+    return this.http.get<any[]>('/api/features');
   }
 }
