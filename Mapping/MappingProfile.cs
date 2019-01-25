@@ -9,8 +9,9 @@ namespace VehicleDealer.Mapping
         public MappingProfile()
         {
             CreateMap<Make,MakeModel>();
-            CreateMap<VehicleModel,VehicleModelModel>();
+            CreateMap<Persistence.DatabaseModel.VehicleModel, VehicleModelModel>();
             CreateMap<FeatureModel,Feature>();
+            CreateMap<Vehicle, ApplicationModels.VehicleModel>();
         }
     }
 }

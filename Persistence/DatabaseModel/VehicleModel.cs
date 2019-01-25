@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,5 +14,6 @@ namespace VehicleDealer.Persistence.DatabaseModel
         public string Name { get; set; }
         public Make Make { get; set; }
         public int MakeId { get; set; }
+        public ICollection<Vehicle> Vehicles { get; set; }
     }
 }
