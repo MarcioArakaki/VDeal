@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using VehicleDealer.Persistence.DatabaseModel;
 
 namespace VehicleDealer.ApplicationModels
 {
@@ -7,13 +10,14 @@ namespace VehicleDealer.ApplicationModels
     {
         public VehicleModel()
         {
+            Features = new Collection<int>();
         }
-        public int Id { get; set; }
+        public int Id { get; set; }  
+        public ContactModel Contact { get; set; }              
+        public VehicleModel Model { get; set; }
+        public int ModelId { get; set; }
 
-        public string ContactName { get; set; }
-        public string ContactPhone { get; set; }
-
-        public int VehicleId { get; set; }
+        public ICollection<int> Features { get; set; }
         
 
     }
