@@ -13,6 +13,8 @@ namespace VehicleDealer.ApplicationModels
             Features = new Collection<int>();
         }
         public int Id { get; set; }  
+
+        public bool IsRegistered { get; set; }
         public ContactModel Contact { get; set; }              
         public VehicleModel Model { get; set; }
         public int ModelId { get; set; }
