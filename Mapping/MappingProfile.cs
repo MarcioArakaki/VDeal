@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using VehicleDealer.ApplicationModels;
@@ -20,11 +21,26 @@ namespace VehicleDealer.Mapping
 
             //API Application Model to Domain
             CreateMap<ApplicationModels.VehicleModel, VehicleDealer.Persistence.DatabaseModel.Vehicle>()
-                .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.Contact.Name))
-                .ForMember(v => v.ContactEmail, opt => opt.MapFrom(vr => vr.Contact.Email))
-                .ForMember(v => v.ContactPhone, opt => opt.MapFrom(vr => vr.Contact.Phone))
-                .ForMember(v => v.Features, opt => opt.MapFrom(vr => vr.Features.Select(id => new VehicleFeature {FeatureId = id})))
-                .ForMember( v => v.LastUpdate, opt => opt.Ignore());
+                .ForMember(v => v.Id, opt => opt.Ignore())
+                .ForMember(v => v.ContactName, opt => opt.MapFrom(vm => vm.Contact.Name))
+                .ForMember(v => v.ContactEmail, opt => opt.MapFrom(vm => vm.Contact.Email))
+                .ForMember(v => v.ContactPhone, opt => opt.MapFrom(vm => vm.Contact.Phone))
+                .ForMember(v => v.Features, opt => opt.MapFrom(vm => vm.Features.Select(id => new VehicleFeature {FeatureId = id})))
+                .ForMember( v => v.LastUpdate, opt => opt.Ignore())
+                .ForMember(v => v.Features, opt => opt.Ignore())
+                .AfterMap((vm,v) => {
+                    //Remove unselected features
+                    var removedFeatures = new List<VehicleFeature>();
+                    foreach (var f in v.Features)
+                        if(!vm.Features.Contains(f.FeatureId))
+                            removedFeatures.Add(f);
+                        foreach(var f in removedFeatures)
+                            v.Features.Remove(f);
+                    //Add new Features
+                    foreach (var idFeature in vm.Features)
+                        if(!v.Features.Any(f => f.FeatureId == idFeature))
+                            v.Features.Add(new VehicleFeature{FeatureId = idFeature});
+                } );
                                                 
         }
     }
