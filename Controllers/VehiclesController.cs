@@ -55,5 +55,22 @@ namespace VehicleDealer.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteVehicle(int id)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var vehicle = await context.Vehicles.Include(x => x.Features).SingleOrDefaultAsync(v => v.Id == id);       
+
+            if(vehicle == null)
+                return BadRequest("Vehicle not found");
+
+            context.Vehicles.Remove(vehicle);
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }
