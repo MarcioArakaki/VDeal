@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using VehicleDealer.Persistence.DatabaseModel;
 
 
-namespace VehicleDealer.Persistence
+namespace VehicleDealer
 {
     public class VDealDbContext: DbContext
     {

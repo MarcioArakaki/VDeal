@@ -25,16 +25,16 @@ namespace VehicleDealer.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] ApplicationModels.VehicleModel vehicleModel)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var vehicle = mapper.Map<ApplicationModels.VehicleModel, Vehicle>(vehicleModel);
-            vehicle.LastUpdate =             DateTime.Now;
+            vehicle.LastUpdate = DateTime.Now;
 
             context.Vehicles.Add(vehicle);
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Vehicle,ApplicationModels.VehicleModel>(vehicle);
+            var result = mapper.Map<Vehicle, ApplicationModels.VehicleModel>(vehicle);
 
             return Ok(result);
         }
@@ -42,16 +42,20 @@ namespace VehicleDealer.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody]ApplicationModels.VehicleModel vehicleModel)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var vehicle = await context.Vehicles.Include(x => x.Features).SingleOrDefaultAsync(v => v.Id == id);       
+            var vehicle = await context.Vehicles.Include(x => x.Features).SingleOrDefaultAsync(v => v.Id == id);
+
+            if (vehicle == null)
+                return NotFound();
+
             mapper.Map<ApplicationModels.VehicleModel, Vehicle>(vehicleModel, vehicle);
-            vehicle.LastUpdate =  DateTime.Now;
+            vehicle.LastUpdate = DateTime.Now;
 
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Vehicle,ApplicationModels.VehicleModel>(vehicle);
+            var result = mapper.Map<Vehicle, ApplicationModels.VehicleModel>(vehicle);
 
             return Ok(result);
         }
@@ -59,18 +63,34 @@ namespace VehicleDealer.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var vehicle = await context.Vehicles.Include(x => x.Features).SingleOrDefaultAsync(v => v.Id == id);       
+            var vehicle = await context.Vehicles.SingleOrDefaultAsync(v => v.Id == id);
 
-            if(vehicle == null)
-                return BadRequest("Vehicle not found");
+            if (vehicle == null)
+                return NotFound();
 
             context.Vehicles.Remove(vehicle);
             await context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetVehicle(int id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var vehicle = await context.Vehicles.Include(x => x.Features).SingleOrDefaultAsync(v => v.Id == id);
+
+            if (vehicle == null)
+                return NotFound();
+
+            var result = mapper.Map<Vehicle, ApplicationModels.VehicleModel>(vehicle);
+
+            return Ok(result);
         }
     }
 }
