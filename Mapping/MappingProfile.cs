@@ -29,19 +29,15 @@ namespace VehicleDealer.Mapping
                 .ForMember( v => v.LastUpdate, opt => opt.Ignore())
                 .ForMember(v => v.Features, opt => opt.Ignore())
                 .AfterMap((vm,v) => {
+
                     //Remove unselected features
-                    var removedFeatures = new List<VehicleFeature>();
-                    foreach (var f in v.Features)
-                        if(!vm.Features.Contains(f.FeatureId))
-                            removedFeatures.Add(f);
-                        foreach(var f in removedFeatures)
-                            v.Features.Remove(f);
-                    //Add new Features
-                    foreach (var idFeature in vm.Features)
-                        if(!v.Features.Any(f => f.FeatureId == idFeature))
-                            v.Features.Add(new VehicleFeature{FeatureId = idFeature});
-                } );
-                                                
+                    var removedFeatures = v.Features.Where(f => !vm.Features.Contains(f.FeatureId)).ToList();
+                    removedFeatures.ForEach((f) => {v.Features.Remove(f);});
+                        
+                    //Add new Features                    
+                    var addedFeatures = vm.Features.Where(id => !v.Features.Any(f => f.FeatureId == id)).Select(id => new VehicleFeature{FeatureId = id}).ToList();
+                    addedFeatures.ForEach((f) => {v.Features.Add(f);});                    
+                });                                                
         }
     }
 }

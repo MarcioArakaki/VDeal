@@ -49,7 +49,6 @@ namespace VehicleDealer.Controllers
             mapper.Map<ApplicationModels.VehicleModel, Vehicle>(vehicleModel, vehicle);
             vehicle.LastUpdate =  DateTime.Now;
 
-
             await context.SaveChangesAsync();
 
             var result = mapper.Map<Vehicle,ApplicationModels.VehicleModel>(vehicle);
