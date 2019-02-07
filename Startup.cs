@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VehicleDealer.Persistence;
+using VehicleDealer.Persistence.Repositories;
+using VehicleDealer.Persistence.Repositories.Interfaces;
 
 namespace VehicleDealer
 {
@@ -22,7 +24,10 @@ namespace VehicleDealer
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {   
+            //Dependency Injection
+            services.AddScoped<IVehicleRepository,VehicleRepository>();
+
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<VDealDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));

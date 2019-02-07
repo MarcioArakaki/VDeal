@@ -6,6 +6,7 @@ using VehicleDealer.Persistence;
 using VehicleDealer.Persistence.DatabaseModel;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using VehicleDealer.Persistence.Repositories.Interfaces;
 
 namespace VehicleDealer.Controllers
 {
@@ -15,9 +16,11 @@ namespace VehicleDealer.Controllers
         private readonly IMapper mapper;
         private readonly VDealDbContext context;
 
+        private readonly IVehicleRepository repository;
 
-        public VehiclesController(IMapper mapper, VDealDbContext context)
+        public VehiclesController(IMapper mapper, VDealDbContext context, IVehicleRepository repository)
         {
+            this.repository = repository;
             this.context = context;
             this.mapper = mapper;
         }
@@ -34,7 +37,9 @@ namespace VehicleDealer.Controllers
             context.Vehicles.Add(vehicle);
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Vehicle, ApplicationModels.SaveVehicleModel>(vehicle);
+            vehicle = await repository.GetVehicle(vehicleModel.Id);
+
+            var result = mapper.Map<Vehicle, ApplicationModels.VehicleModel>(vehicle);
 
             return Ok(result);
         }
@@ -52,13 +57,15 @@ namespace VehicleDealer.Controllers
 
             mapper.Map<ApplicationModels.SaveVehicleModel, Vehicle>(vehicleModel, vehicle);
             vehicle.LastUpdate = DateTime.Now;
-
+            vehicle = await repository.GetVehicle(vehicleModel.Id);
+            
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Vehicle, ApplicationModels.SaveVehicleModel>(vehicle);
+            var result = mapper.Map<Vehicle, ApplicationModels.VehicleModel>(vehicle);
 
             return Ok(result);
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVehicle(int id)
@@ -83,12 +90,7 @@ namespace VehicleDealer.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var vehicle = await context.Vehicles
-            .Include(v => v.Features)
-                .ThenInclude(vf => vf.Feature)
-            .Include(v => v.Model)
-                .ThenInclude(m => m.Make)    
-                    .SingleOrDefaultAsync(v => v.Id == id);
+            var vehicle = await repository.GetVehicle(id);
 
             if (vehicle == null)
                 return NotFound();
