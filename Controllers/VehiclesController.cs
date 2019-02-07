@@ -23,24 +23,24 @@ namespace VehicleDealer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateVehicle([FromBody] ApplicationModels.VehicleModel vehicleModel)
+        public async Task<IActionResult> CreateVehicle([FromBody] ApplicationModels.SaveVehicleModel vehicleModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var vehicle = mapper.Map<ApplicationModels.VehicleModel, Vehicle>(vehicleModel);
+            var vehicle = mapper.Map<ApplicationModels.SaveVehicleModel, Vehicle>(vehicleModel);
             vehicle.LastUpdate = DateTime.Now;
 
             context.Vehicles.Add(vehicle);
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Vehicle, ApplicationModels.VehicleModel>(vehicle);
+            var result = mapper.Map<Vehicle, ApplicationModels.SaveVehicleModel>(vehicle);
 
             return Ok(result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateVehicle(int id, [FromBody]ApplicationModels.VehicleModel vehicleModel)
+        public async Task<IActionResult> UpdateVehicle(int id, [FromBody]ApplicationModels.SaveVehicleModel vehicleModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -50,12 +50,12 @@ namespace VehicleDealer.Controllers
             if (vehicle == null)
                 return NotFound();
 
-            mapper.Map<ApplicationModels.VehicleModel, Vehicle>(vehicleModel, vehicle);
+            mapper.Map<ApplicationModels.SaveVehicleModel, Vehicle>(vehicleModel, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 
             await context.SaveChangesAsync();
 
-            var result = mapper.Map<Vehicle, ApplicationModels.VehicleModel>(vehicle);
+            var result = mapper.Map<Vehicle, ApplicationModels.SaveVehicleModel>(vehicle);
 
             return Ok(result);
         }
@@ -83,7 +83,12 @@ namespace VehicleDealer.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var vehicle = await context.Vehicles.Include(x => x.Features).SingleOrDefaultAsync(v => v.Id == id);
+            var vehicle = await context.Vehicles
+            .Include(v => v.Features)
+                .ThenInclude(vf => vf.Feature)
+            .Include(v => v.Model)
+                .ThenInclude(m => m.Make)    
+                    .SingleOrDefaultAsync(v => v.Id == id);
 
             if (vehicle == null)
                 return NotFound();

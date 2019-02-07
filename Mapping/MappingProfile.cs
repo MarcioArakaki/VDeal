@@ -14,13 +14,18 @@ namespace VehicleDealer.Mapping
             CreateMap<Make,MakeModel>();
             CreateMap<Persistence.DatabaseModel.VehicleModel, VehicleModelModel>();
             CreateMap<Feature,FeatureModel>();
-            CreateMap<VehicleDealer.Persistence.DatabaseModel.Vehicle,ApplicationModels.VehicleModel>()
-                .ForMember(vr => vr.Contact, opt => opt.MapFrom( v => new ContactModel{ Name = v.ContactName, Email = v.ContactEmail, Phone = v.ContactPhone}))
-                .ForMember(vr => vr.Features, opt => opt.MapFrom( v=>  v.Features.Select(f => f.FeatureId)));
+            CreateMap<VehicleDealer.Persistence.DatabaseModel.Vehicle,ApplicationModels.SaveVehicleModel>()
+                .ForMember(vm => vm.Contact, opt => opt.MapFrom( v => new ContactModel{ Name = v.ContactName, Email = v.ContactEmail, Phone = v.ContactPhone}))
+                .ForMember(vm => vm.Features, opt => opt.MapFrom( v=>  v.Features.Select(f => f.FeatureId)));
+            CreateMap<Vehicle, ApplicationModels.VehicleModel>()      
+                .ForMember(vm => vm.Contact, opt => opt.MapFrom( v => new ContactModel{ Name = v.ContactName, Email = v.ContactEmail, Phone = v.ContactPhone}))
+                .ForMember(vm => vm.Features, opt => opt.MapFrom( v =>  v.Features.Select(vf => new FeatureModel{Id = vf.Feature.Id, Name = vf.Feature.Name})))
+                .ForMember(vm => vm.Make, opt => opt.MapFrom(v => new MakeModel{Id = v.Model.MakeId, Name = v.Model.Make.Name}));
 
+    
 
             //API Application Model to Domain
-            CreateMap<ApplicationModels.VehicleModel, VehicleDealer.Persistence.DatabaseModel.Vehicle>()
+            CreateMap<ApplicationModels.SaveVehicleModel, VehicleDealer.Persistence.DatabaseModel.Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
                 .ForMember(v => v.ContactName, opt => opt.MapFrom(vm => vm.Contact.Name))
                 .ForMember(v => v.ContactEmail, opt => opt.MapFrom(vm => vm.Contact.Email))
