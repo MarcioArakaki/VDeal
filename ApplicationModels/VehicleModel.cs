@@ -8,15 +8,15 @@ namespace VehicleDealer.ApplicationModels
     {
         public VehicleModel()
         {
-            Features = new Collection<FeatureModel>();
+            Features = new Collection<KeyValuePairModel>();
         }
         public int Id { get; set; }
 
         public ContactModel Contact { get; set; }
         public bool IsRegistered { get; set; }
         public DateTime LastUpdate { get; set; }
-        public VehicleModelModel Model { get; set; }
-        public MakeModel Make { get; set; }
-        public ICollection<FeatureModel> Features { get; set; }
+        public KeyValuePairModel Model { get; set; }
+        public KeyValuePairModel Make { get; set; }
+        public ICollection<KeyValuePairModel> Features { get; set; }
     }
 }

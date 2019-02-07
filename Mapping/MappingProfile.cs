@@ -12,15 +12,16 @@ namespace VehicleDealer.Mapping
         {
             //Domain Api to Application Model
             CreateMap<Make,MakeModel>();
-            CreateMap<Persistence.DatabaseModel.VehicleModel, VehicleModelModel>();
-            CreateMap<Feature,FeatureModel>();
+            CreateMap<Make,KeyValuePairModel>();
+            CreateMap<Persistence.DatabaseModel.VehicleModel, KeyValuePairModel>();
+            CreateMap<Feature,KeyValuePairModel>();
             CreateMap<VehicleDealer.Persistence.DatabaseModel.Vehicle,ApplicationModels.SaveVehicleModel>()
                 .ForMember(vm => vm.Contact, opt => opt.MapFrom( v => new ContactModel{ Name = v.ContactName, Email = v.ContactEmail, Phone = v.ContactPhone}))
                 .ForMember(vm => vm.Features, opt => opt.MapFrom( v=>  v.Features.Select(f => f.FeatureId)));
             CreateMap<Vehicle, ApplicationModels.VehicleModel>()      
                 .ForMember(vm => vm.Contact, opt => opt.MapFrom( v => new ContactModel{ Name = v.ContactName, Email = v.ContactEmail, Phone = v.ContactPhone}))
-                .ForMember(vm => vm.Features, opt => opt.MapFrom( v =>  v.Features.Select(vf => new FeatureModel{Id = vf.Feature.Id, Name = vf.Feature.Name})))
-                .ForMember(vm => vm.Make, opt => opt.MapFrom(v => new MakeModel{Id = v.Model.MakeId, Name = v.Model.Make.Name}));
+                .ForMember(vm => vm.Features, opt => opt.MapFrom( v =>  v.Features.Select(vf => new KeyValuePairModel{Id = vf.Feature.Id, Name = vf.Feature.Name})))
+                .ForMember(vm => vm.Make, opt => opt.MapFrom(v => v.Model.Make));
 
     
 

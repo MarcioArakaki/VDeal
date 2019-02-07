@@ -3,17 +3,14 @@ using System.Collections.ObjectModel;
 
 namespace VehicleDealer.ApplicationModels
 {
-    public class MakeModel
+    public class MakeModel: KeyValuePairModel
     {
         public MakeModel()
         {
-            Models = new Collection<VehicleModelModel>();
+            Models = new Collection<KeyValuePairModel>();
 
         }
-        public int Id { get; set; }
 
-        public string Name { get; set; }
-
-        public ICollection<VehicleModelModel> Models { get; set; }
+        public ICollection<KeyValuePairModel> Models { get; set; }
     }
 }
