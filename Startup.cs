@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VehicleDealer.Persistence;
+using VehicleDealer.Persistence.DataAbstraction;
+using VehicleDealer.Persistence.DataAbstraction.Interfaces;
 using VehicleDealer.Persistence.Repositories;
 using VehicleDealer.Persistence.Repositories.Interfaces;
 
@@ -27,6 +29,7 @@ namespace VehicleDealer
         {   
             //Dependency Injection
             services.AddScoped<IVehicleRepository,VehicleRepository>();
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
 
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

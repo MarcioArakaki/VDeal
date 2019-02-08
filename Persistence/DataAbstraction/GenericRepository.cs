@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
-namespace VehicleDealer.DataAbstraction
+namespace VehicleDealer.Persistence.DataAbstraction
 {
     public class GenericRepository<TEntity> where TEntity : class
     {

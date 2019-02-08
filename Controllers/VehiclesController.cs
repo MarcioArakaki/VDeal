@@ -7,6 +7,7 @@ using VehicleDealer.Persistence.DatabaseModel;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using VehicleDealer.Persistence.Repositories.Interfaces;
+using VehicleDealer.Persistence.DataAbstraction.Interfaces;
 
 namespace VehicleDealer.Controllers
 {
@@ -17,10 +18,12 @@ namespace VehicleDealer.Controllers
         private readonly VDealDbContext context;
 
         private readonly IVehicleRepository repository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public VehiclesController(IMapper mapper, VDealDbContext context, IVehicleRepository repository)
+        public VehiclesController(IMapper mapper, VDealDbContext context, IVehicleRepository repository, IUnitOfWork unitOfWork)
         {
             this.repository = repository;
+            this.unitOfWork = unitOfWork;
             this.context = context;
             this.mapper = mapper;
         }
@@ -34,8 +37,9 @@ namespace VehicleDealer.Controllers
             var vehicle = mapper.Map<ApplicationModels.SaveVehicleModel, Vehicle>(vehicleModel);
             vehicle.LastUpdate = DateTime.Now;
 
-            context.Vehicles.Add(vehicle);
-            await context.SaveChangesAsync();
+            repository.Add(vehicle);
+            await unitOfWork.SaveAsync();
+            
 
             vehicle = await repository.GetVehicle(vehicleModel.Id);
 
@@ -50,16 +54,16 @@ namespace VehicleDealer.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var vehicle = await context.Vehicles.Include(x => x.Features).SingleOrDefaultAsync(v => v.Id == id);
+            var vehicle = await repository.GetVehicle(id);
 
             if (vehicle == null)
                 return NotFound();
 
             mapper.Map<ApplicationModels.SaveVehicleModel, Vehicle>(vehicleModel, vehicle);
             vehicle.LastUpdate = DateTime.Now;
-            vehicle = await repository.GetVehicle(vehicleModel.Id);
+            repository.Update(vehicle);
             
-            await context.SaveChangesAsync();
+            await unitOfWork.SaveAsync();
 
             var result = mapper.Map<Vehicle, ApplicationModels.VehicleModel>(vehicle);
 
@@ -73,13 +77,14 @@ namespace VehicleDealer.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var vehicle = await context.Vehicles.SingleOrDefaultAsync(v => v.Id == id);
+            var vehicle = await repository.GetById(id);
 
             if (vehicle == null)
                 return NotFound();
 
-            context.Vehicles.Remove(vehicle);
-            await context.SaveChangesAsync();
+            repository.Remove(vehicle);
+            
+            await unitOfWork.SaveAsync();
 
             return Ok();
         }

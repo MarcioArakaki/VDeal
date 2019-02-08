@@ -1,14 +1,18 @@
 using System;
+using System.Threading.Tasks;
+using VehicleDealer.Persistence.DataAbstraction.Interfaces;
 using VehicleDealer.Persistence.DatabaseModel;
 
-namespace VehicleDealer.DataAbstraction
+namespace VehicleDealer.Persistence.DataAbstraction
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IUnitOfWork,IDisposable
     {
         private VDealDbContext context;
         private GenericRepository<Vehicle> vehicleRepository;
 
-
+        public UnitOfWork(VDealDbContext context){
+            this.context = context;
+        }
         public GenericRepository<Vehicle> VehicleRepository
         {
             get
@@ -25,8 +29,12 @@ namespace VehicleDealer.DataAbstraction
 
         public void Save()
         {
-
             context.SaveChanges();
+        }
+
+        public async Task SaveAsync()
+        {
+            await context.SaveChangesAsync();
         }
 
         private bool disposed = false;
