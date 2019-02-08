@@ -34,6 +34,7 @@ namespace VehicleDealer.Mapping
                 .ForMember(v => v.Features, opt => opt.MapFrom(vm => vm.Features.Select(id => new VehicleFeature {FeatureId = id})))
                 .ForMember( v => v.LastUpdate, opt => opt.Ignore())
                 .ForMember(v => v.Features, opt => opt.Ignore())
+                .ForMember(v => v.Model, opt => opt.Ignore())
                 .AfterMap((vm,v) => {
 
                     //Remove unselected features
