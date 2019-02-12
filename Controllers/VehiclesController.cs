@@ -30,7 +30,7 @@ namespace VehicleDealer.Controllers
 
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] ApplicationModels.SaveVehicleModel vehicleModel)
-        {
+        {            
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
