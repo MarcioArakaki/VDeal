@@ -41,7 +41,7 @@ namespace VehicleDealer.Controllers
             await unitOfWork.SaveAsync();
             
 
-            vehicle = await repository.GetVehicle(vehicleModel.Id);
+            vehicle = await repository.GetVehicle(vehicle.Id);
 
             var result = mapper.Map<Vehicle, ApplicationModels.VehicleModel>(vehicle);
 

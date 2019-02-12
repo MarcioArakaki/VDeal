@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class VehicleService {
+  
 
   constructor(private http: HttpClient) { }
 
@@ -15,5 +16,9 @@ export class VehicleService {
 
   getFeatures(){
     return this.http.get<any[]>('/api/features');
+  }
+
+  create(vehicle) {
+    return this.http.post("api/vehicles",vehicle);      
   }
 }
