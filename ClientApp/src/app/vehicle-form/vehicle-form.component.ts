@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VehicleService } from '../services/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -16,9 +17,25 @@ export class VehicleFormComponent implements OnInit {
     contact: {}
   };
 
-  constructor(private vehicleService: VehicleService, private toastr: ToastrService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private vehicleService: VehicleService,
+    private toastr: ToastrService,
+    ) {
+      route.params.subscribe(p => {
+        this.vehicle.id = +p['id'];
+      })
+    }
 
   ngOnInit() {
+
+    if(this.vehicle.id)
+      this.vehicleService.getVehicle(this.vehicle.id)
+      .subscribe(v => {
+        this.vehicle = v;
+      });
+
     this.vehicleService.getMakes().subscribe(makes => {
       this.makes = makes;
     });    
