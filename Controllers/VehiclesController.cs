@@ -74,6 +74,7 @@ namespace VehicleDealer.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
+            throw new Exception("teste");
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
