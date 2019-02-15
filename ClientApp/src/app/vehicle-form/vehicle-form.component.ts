@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { VehicleService } from '../services/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -30,19 +32,37 @@ export class VehicleFormComponent implements OnInit {
 
   ngOnInit() {
 
+    var sources =[
+      this.vehicleService.getMakes(),
+      this.vehicleService.getFeatures(),
+    ];
+
     if(this.vehicle.id)
-      this.vehicleService.getVehicle(this.vehicle.id)
-      .subscribe(v => {
-        this.vehicle = v;
-      });
+      sources.push(this.vehicleService.getVehicle(this.vehicle.id));
 
-    this.vehicleService.getMakes().subscribe(makes => {
-      this.makes = makes;
-    });    
+    forkJoin(sources).subscribe(data => {
+      this.makes = data[0];
+      this.features = data[1];
+      if (this.vehicle.id)
+        this.vehicle = data[2];
+    }, error => {
+      if(error.status = 404)
+        this.router.navigate(['/home']);
+    });
 
-    this.vehicleService.getFeatures().subscribe(features => {
-      this.features = features;
-    })
+    // if(this.vehicle.id)
+    //   this.vehicleService.getVehicle(this.vehicle.id)
+    //   .subscribe(v => {
+    //     this.vehicle = v;
+    //   });
+
+    // this.vehicleService.getMakes().subscribe(makes => {
+    //   this.makes = makes;
+    // });    
+
+    // this.vehicleService.getFeatures().subscribe(features => {
+    //   this.features = features;
+    // })
   }
 
   onMakeChange(){

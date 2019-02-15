@@ -23,6 +23,6 @@ export class VehicleService {
   }
 
   getVehicle(id){
-    return this.http.get('api/vehicles/'+id);
+    return this.http.get<any>('api/vehicles/'+id);
   }
 }
