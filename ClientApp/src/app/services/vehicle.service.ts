@@ -1,3 +1,4 @@
+import { Vehicle, SaveVehicle } from './../models/vehicle';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
@@ -6,7 +7,6 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class VehicleService {
-  
 
   constructor(private http: HttpClient) { }
 
@@ -22,7 +22,11 @@ export class VehicleService {
     return this.http.post("api/vehicles",vehicle);      
   }
 
+  update(vehicle: SaveVehicle): any {
+    return this.http.put("api/vehicles/"+ vehicle.id,vehicle);      
+  }
+
   getVehicle(id){
-    return this.http.get<any>('api/vehicles/'+id);
+    return this.http.get<Vehicle>('api/vehicles/'+id);
   }
 }

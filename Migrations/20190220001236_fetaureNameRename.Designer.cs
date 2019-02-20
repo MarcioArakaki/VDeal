@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleDealer;
 
 namespace VehicleDealer.Migrations
 {
     [DbContext(typeof(VDealDbContext))]
-    partial class VDealDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190220001236_fetaureNameRename")]
+    partial class fetaureNameRename
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
