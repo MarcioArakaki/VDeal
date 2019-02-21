@@ -15,6 +15,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    VehicleFormComponent
+    VehicleFormComponent,
+    VehicleListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -36,7 +38,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'vehicles/new', component: VehicleFormComponent},
-      { path: 'vehicles/:id', component: VehicleFormComponent}
+      { path: 'vehicles/:id', component: VehicleFormComponent},
+      { path: 'vehicles', component: VehicleListComponent}
     ])
   ],
   providers: [
