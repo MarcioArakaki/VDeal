@@ -1,3 +1,21 @@
-<p>
-  vehicle-list works!
-</p>
+{{ vehicles | json}}
+<div>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Model</th>
+        <th scope="col">Contact</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tr *ngFor="let vehicle of vehicles">
+      <td>{{ vehicle.id}}</td>
+      <td>{{ vehicle.make.name}}</td>
+      <td>{{ vehicle.model.name}}</td>
+      <td>{{ vehicle.contact.name}}</td>
+      <td><a href="vehicles/{{vehicle.id}}">View</a></td>
+    </tr>
+  </table>
+</div>

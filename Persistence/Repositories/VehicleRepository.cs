@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using VehicleDealer.Persistence.DatabaseModel;
@@ -27,16 +29,28 @@ namespace VehicleDealer.Persistence.Repositories
         {
             return await context.Vehicles.SingleOrDefaultAsync(v => v.Id == id);
         }
-        public  void Add(Vehicle vehicle){
+        public void Add(Vehicle vehicle)
+        {
             context.Vehicles.Add(vehicle);
         }
-        public void Remove(Vehicle vehicle){
+        public void Remove(Vehicle vehicle)
+        {
             context.Vehicles.Remove(vehicle);
         }
-        public void Update(Vehicle vehicle){
+        public void Update(Vehicle vehicle)
+        {
 
             context.Vehicles.Attach(vehicle);
             context.Entry(vehicle).State = EntityState.Modified;
+        }
+
+        public Task<List<Vehicle>> GetAllVehicles()
+        {
+            return context.Vehicles.Include(v => v.Features)
+                .ThenInclude(vf => vf.Feature)
+                    .Include(v => v.Model)
+                        .ThenInclude(m => m.Make)
+                            .ToListAsync();
         }
     }
 }

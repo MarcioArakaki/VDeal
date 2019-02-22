@@ -30,7 +30,7 @@ namespace VehicleDealer.Controllers
 
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody] ApplicationModels.SaveVehicleModel vehicleModel)
-        {            
+        {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -39,7 +39,7 @@ namespace VehicleDealer.Controllers
 
             repository.Add(vehicle);
             await unitOfWork.SaveAsync();
-            
+
 
             vehicle = await repository.GetVehicle(vehicle.Id);
 
@@ -62,7 +62,7 @@ namespace VehicleDealer.Controllers
             mapper.Map<ApplicationModels.SaveVehicleModel, Vehicle>(vehicleModel, vehicle);
             vehicle.LastUpdate = DateTime.Now;
             repository.Update(vehicle);
-            
+
             await unitOfWork.SaveAsync();
 
             var result = mapper.Map<Vehicle, ApplicationModels.VehicleModel>(vehicle);
@@ -83,7 +83,7 @@ namespace VehicleDealer.Controllers
                 return NotFound();
 
             repository.Remove(vehicle);
-            
+
             await unitOfWork.SaveAsync();
 
             return Ok();
@@ -101,6 +101,19 @@ namespace VehicleDealer.Controllers
                 return NotFound();
 
             var result = mapper.Map<Vehicle, ApplicationModels.VehicleModel>(vehicle);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetVehicles()
+        {           
+            var vehicles = await repository.GetAllVehicles();
+
+            if (vehicles == null)
+                return NotFound();
+
+            var result = vehicles.Select(mapper.Map<Vehicle, ApplicationModels.VehicleModel>);
 
             return Ok(result);
         }
