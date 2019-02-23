@@ -44,13 +44,14 @@ namespace VehicleDealer.Persistence.Repositories
             context.Entry(vehicle).State = EntityState.Modified;
         }
 
-        public Task<List<Vehicle>> GetAllVehicles()
+        public async Task<IEnumerable<Vehicle>> GetAllVehicles()
         {
-            return context.Vehicles.Include(v => v.Features)
+            return await context.Vehicles
+            .Include(v => v.Features)
                 .ThenInclude(vf => vf.Feature)
-                    .Include(v => v.Model)
-                        .ThenInclude(m => m.Make)
-                            .ToListAsync();
+            .Include(v => v.Model)
+                .ThenInclude(m => m.Make)
+            .ToListAsync();
         }
     }
 }

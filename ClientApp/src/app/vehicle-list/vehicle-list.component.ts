@@ -10,6 +10,7 @@ import { VehicleService } from '../services/vehicle.service';
 })
 export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[];
+  makes: any[];
 
   constructor(
     private vehicleService: VehicleService,
@@ -17,7 +18,10 @@ export class VehicleListComponent implements OnInit {
 
   ngOnInit() {
     this.vehicleService.getVehicles()
-      .subscribe(x => this.vehicles = x);
+      .subscribe(vehicles => this.vehicles = vehicles);
+
+      this.vehicleService.getMakes()
+      .subscribe(makes => this.makes = makes);
   }
 
 }
