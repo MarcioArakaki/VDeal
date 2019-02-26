@@ -107,9 +107,9 @@ namespace VehicleDealer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetVehicles(FilterModel filterModel)
+        public async Task<IActionResult> GetVehicles(VehicleQueryModel filterModel)
         {           
-            var filter = mapper.Map<FilterModel,Filter>(filterModel);
+            var filter = mapper.Map<VehicleQueryModel,VehicleQuery>(filterModel);
             var vehicles = await repository.GetAllVehicles(filter);
 
             if (vehicles == null)

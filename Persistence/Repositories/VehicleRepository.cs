@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using VehicleDealer.Persistence.DatabaseModel;
@@ -44,7 +46,7 @@ namespace VehicleDealer.Persistence.Repositories
             context.Entry(vehicle).State = EntityState.Modified;
         }
 
-        public async Task<IEnumerable<Vehicle>> GetAllVehicles(Filter filter)
+        public async Task<IEnumerable<Vehicle>> GetAllVehicles(VehicleQuery queryObj)
         {
             var query = context.Vehicles
             .Include(v => v.Features)
@@ -53,11 +55,27 @@ namespace VehicleDealer.Persistence.Repositories
                 .ThenInclude(m => m.Make)
             .AsQueryable();
 
-            if (filter.MakeId.HasValue)
-                query = query.Where(v => v.Model.MakeId == filter.MakeId.Value);
+            if (queryObj.MakeId.HasValue)
+                query = query.Where(v => v.Model.MakeId == queryObj.MakeId.Value);
 
-            if (filter.ModelId.HasValue)
-                query = query.Where(v => v.ModelId == filter.ModelId.Value);
+            if (queryObj.ModelId.HasValue)
+                query = query.Where(v => v.ModelId == queryObj.ModelId.Value);
+
+            //mapping string to experssion
+            var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>()
+            {
+                ["make"] = v => v.Model.Make.Name,
+                ["model"] = v => v.Model.Name,
+                ["contactName"] = v => v.ContactName,
+                ["id"] = v => v.Id
+            };
+
+            //columnsMap.Add("make", v => v.Model.Make.Name); --Without c#6
+
+            if (queryObj.IsSortAscending)
+                query = query.OrderBy(columnsMap[queryObj.SortBy]);
+            else
+                query = query.OrderByDescending(columnsMap[queryObj.SortBy]);
 
             return await query.ToListAsync();
 
