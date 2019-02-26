@@ -53,11 +53,14 @@ namespace VehicleDealer.Persistence.Repositories
                 .ThenInclude(m => m.Make)
             .AsQueryable();
 
-            if(filter.MakeId.HasValue)
-                query = query.Where(v => v.Model.MakeId == filter.MakeId.Value);  
+            if (filter.MakeId.HasValue)
+                query = query.Where(v => v.Model.MakeId == filter.MakeId.Value);
 
-            return await query.ToListAsync();                             
-            
+            if (filter.ModelId.HasValue)
+                query = query.Where(v => v.ModelId == filter.ModelId.Value);
+
+            return await query.ToListAsync();
+
         }
     }
 }

@@ -10,31 +10,41 @@ export class VehicleService {
 
   constructor(private http: HttpClient) { }
 
-  getMakes(){
+  getMakes() {
     return this.http.get<any[]>('/api/makes');
   }
 
-  getFeatures(){
+  getFeatures() {
     return this.http.get<any[]>('/api/features');
   }
 
   create(vehicle) {
-    return this.http.post("api/vehicles",vehicle);      
+    return this.http.post("api/vehicles", vehicle);
   }
 
   update(vehicle: SaveVehicle): any {
-    return this.http.put("api/vehicles/"+ vehicle.id,vehicle);      
+    return this.http.put("api/vehicles/" + vehicle.id, vehicle);
   }
 
-  getVehicle(id){
-    return this.http.get<Vehicle>('api/vehicles/'+id);
+  getVehicle(id) {
+    return this.http.get<Vehicle>('api/vehicles/' + id);
   }
 
-  delete(id){
-    return this.http.delete<Vehicle>('api/vehicles/'+id);
+  delete(id) {
+    return this.http.delete<Vehicle>('api/vehicles/' + id);
   }
 
-  getVehicles(){
-    return this.http.get<Vehicle[]>('api/vehicles/');
+  getVehicles(filter) {
+    return this.http.get<Vehicle[]>('api/vehicles' + '?' + this.toQueryString(filter));
+  }
+
+  toQueryString(obj) {   
+    var parts = [];
+    for (var property in obj) {
+      var value = obj[property];
+      if (value != null && value != undefined)
+        parts.push(encodeURIComponent(property) + '=' + encodeURIComponent(value));
+    }    
+    return parts.join('&');
   }
 }
