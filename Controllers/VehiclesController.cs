@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using VehicleDealer.Persistence.Repositories.Interfaces;
 using VehicleDealer.Persistence.DataAbstraction.Interfaces;
+using VehicleDealer.ApplicationModels;
 
 namespace VehicleDealer.Controllers
 {
@@ -106,9 +107,10 @@ namespace VehicleDealer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetVehicles()
+        public async Task<IActionResult> GetVehicles(FilterModel filterModel)
         {           
-            var vehicles = await repository.GetAllVehicles();
+            var filter = mapper.Map<FilterModel,Filter>(filterModel);
+            var vehicles = await repository.GetAllVehicles(filter);
 
             if (vehicles == null)
                 return NotFound();

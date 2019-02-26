@@ -26,6 +26,7 @@ namespace VehicleDealer.Mapping
     
 
             //API Application Model to Domain
+            CreateMap<FilterModel,Filter>();
             CreateMap<ApplicationModels.SaveVehicleModel, VehicleDealer.Persistence.DatabaseModel.Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
                 .ForMember(v => v.ContactName, opt => opt.MapFrom(vm => vm.Contact.Name))

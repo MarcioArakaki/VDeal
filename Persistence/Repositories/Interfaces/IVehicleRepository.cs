@@ -8,7 +8,7 @@ namespace VehicleDealer.Persistence.Repositories.Interfaces
     {
        Task<Vehicle> GetVehicle(int id);
        Task<Vehicle> GetById(int id);
-       Task<IEnumerable<Vehicle>> GetAllVehicles();
+       Task<IEnumerable<Vehicle>> GetAllVehicles(Filter filter);
        void Add(Vehicle vehicle);
        void Remove(Vehicle vehicle);
        void Update(Vehicle vehicle);
