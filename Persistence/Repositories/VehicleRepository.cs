@@ -68,7 +68,6 @@ namespace VehicleDealer.Persistence.Repositories
                 ["make"] = v => v.Model.Make.Name,
                 ["model"] = v => v.Model.Name,
                 ["contactName"] = v => v.ContactName,
-                ["id"] = v => v.Id
             };
             //columnsMap.Add("make", v => v.Model.Make.Name); --Without c#6
             
