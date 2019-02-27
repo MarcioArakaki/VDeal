@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using VehicleDealer.Extensions;
 using VehicleDealer.Persistence.DatabaseModel;
 using VehicleDealer.Persistence.Repositories.Interfaces;
 
@@ -69,16 +70,11 @@ namespace VehicleDealer.Persistence.Repositories
                 ["contactName"] = v => v.ContactName,
                 ["id"] = v => v.Id
             };
-
             //columnsMap.Add("make", v => v.Model.Make.Name); --Without c#6
-
-            if (queryObj.IsSortAscending)
-                query = query.OrderBy(columnsMap[queryObj.SortBy]);
-            else
-                query = query.OrderByDescending(columnsMap[queryObj.SortBy]);
+            
+            query = query.ApplyOrdering(queryObj, columnsMap);
 
             return await query.ToListAsync();
-
         }
     }
 }
