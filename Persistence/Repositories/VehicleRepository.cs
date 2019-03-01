@@ -70,10 +70,13 @@ namespace VehicleDealer.Persistence.Repositories
                 ["contactName"] = v => v.ContactName,
             };
             //columnsMap.Add("make", v => v.Model.Make.Name); --Without c#6
-            
-            query = query.ApplyOrdering(queryObj, columnsMap);
 
-            return await query.ToListAsync();
+            query = query.ApplyOrdering(queryObj, columnsMap);
+            query = query.ApplyPaging(queryObj);
+
+            return await query.ToListAsync(); 
         }
+
+    
     }
 }
