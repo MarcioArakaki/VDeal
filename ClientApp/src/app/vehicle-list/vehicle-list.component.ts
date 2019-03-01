@@ -11,13 +11,15 @@ import { VehicleService } from '../services/vehicle.service';
 export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[];
   makes: any[];
-  query: any = {};
+  query: any = {
+    pageSize: 3
+  };
   allVehicles: Vehicle[];
   columns = [
-    {title: 'Id'},
-    {title: 'Make', key: 'make', isSortable: true},
-    {title: 'Model', key: 'model', isSortable: true},
-    {title: 'Contact Name', key: 'contactName', isSortable: true},
+    { title: 'Id' },
+    { title: 'Make', key: 'make', isSortable: true },
+    { title: 'Model', key: 'model', isSortable: true },
+    { title: 'Contact Name', key: 'contactName', isSortable: true },
     {}
   ]
 
@@ -60,14 +62,19 @@ export class VehicleListComponent implements OnInit {
     this.onFilterChange();
   }
 
-  sortBy(columnName){
-    if(this.query.sortBy === columnName)
+  sortBy(columnName) {
+    if (this.query.sortBy === columnName)
       this.query.isSortAscending = !this.query.isSortAscending;
-    else{
+    else {
       this.query.sortBy = columnName;
       this.query.isSortAscending = true;
     }
-    this.populateVehicles();    
+    this.populateVehicles();
+  }
+
+  onPageChange(page) {
+    this.query.page = 3;
+    this.populateVehicles();
   }
 
 }
