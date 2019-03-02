@@ -1,10 +1,8 @@
-import { Component, Input,Output, OnChanges } from '@angular/core';
-import { EventEmitter } from 'protractor';
+import { Component, Input, Output, OnChanges, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-pagination',
+  selector: 'pagination',
   templateUrl: './pagination.component.html',
-  styleUrls: ['./pagination.component.css']
 })
 export class PaginationComponent implements OnChanges {
   @Input('total-items') totalItems;

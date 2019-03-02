@@ -5,7 +5,7 @@
       <select id="make" class="form-control col-md-4" [(ngModel)]="query.makeId" (change)="onFilterChange()"
         name="makeId" #make="ngModel">
         <option value=""></option>
-        <option *ngFor="let m of makes" value="{{ m.id}}">{{ m.name}}</option>
+        <option *ngFor="let m of makes" value="{{m.id}}">{{ m.name}}</option>
       </select>
     </div>
     <button class="btn" (click)="resetFilter()">Reset</button>
@@ -38,3 +38,4 @@
     </tr>
   </table>
 </div>
+<pagination [total-items]="10" [page-size]="query.pageSize" (page-changed)="onPageChange($event)" ></pagination>
