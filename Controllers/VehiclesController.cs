@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using VehicleDealer.Persistence.Repositories.Interfaces;
 using VehicleDealer.Persistence.DataAbstraction.Interfaces;
 using VehicleDealer.ApplicationModels;
+using VehicleModel = VehicleDealer.ApplicationModels.VehicleModel;
 
 namespace VehicleDealer.Controllers
 {
@@ -107,17 +108,14 @@ namespace VehicleDealer.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetVehicles(VehicleQueryModel filterModel)
+        public async Task<QueryResultModel<VehicleModel>> GetVehicles(VehicleQueryModel filterModel)
         {           
             var filter = mapper.Map<VehicleQueryModel,VehicleQuery>(filterModel);
             var vehicles = await repository.GetAllVehicles(filter);
 
-            if (vehicles == null)
-                return NotFound();
+            var result = mapper.Map<QueryResult<Vehicle>, QueryResultModel<VehicleModel>>(vehicles);
 
-            var result = vehicles.Select(mapper.Map<Vehicle, ApplicationModels.VehicleModel>);
-
-            return Ok(result);
+            return result;
         }
     }
 }

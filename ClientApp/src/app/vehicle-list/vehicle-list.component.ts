@@ -9,6 +9,7 @@ import { VehicleService } from '../services/vehicle.service';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
+  queryResult: any = {};
   vehicles: Vehicle[];
   makes: any[];
   query: any = {
@@ -37,7 +38,7 @@ export class VehicleListComponent implements OnInit {
 
   private populateVehicles() {
     this.vehicleService.getVehicles(this.query)
-      .subscribe(vehicles => this.vehicles = this.allVehicles = vehicles);
+      .subscribe(result => this.queryResult = result);
   }
 
   onFilterChange() {

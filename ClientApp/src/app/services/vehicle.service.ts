@@ -35,7 +35,7 @@ export class VehicleService {
   }
 
   getVehicles(filter) {
-    return this.http.get<Vehicle[]>('api/vehicles' + '?' + this.toQueryString(filter));
+    return this.http.get<any>('api/vehicles' + '?' + this.toQueryString(filter));
   }
 
   toQueryString(obj) {   

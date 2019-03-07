@@ -47,8 +47,9 @@ namespace VehicleDealer.Persistence.Repositories
             context.Entry(vehicle).State = EntityState.Modified;
         }
 
-        public async Task<IEnumerable<Vehicle>> GetAllVehicles(VehicleQuery queryObj)
+        public async Task<QueryResult<Vehicle>> GetAllVehicles(VehicleQuery queryObj)
         {
+            var result = new QueryResult<Vehicle>();
             var query = context.Vehicles
             .Include(v => v.Features)
                 .ThenInclude(vf => vf.Feature)
@@ -72,9 +73,14 @@ namespace VehicleDealer.Persistence.Repositories
             //columnsMap.Add("make", v => v.Model.Make.Name); --Without c#6
 
             query = query.ApplyOrdering(queryObj, columnsMap);
+
+            result.TotalItems = await query.CountAsync();
+            
             query = query.ApplyPaging(queryObj);
 
-            return await query.ToListAsync(); 
+            result.Items = await query.ToListAsync();
+
+            return result;
         }
 
     

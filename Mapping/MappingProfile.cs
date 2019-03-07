@@ -11,6 +11,7 @@ namespace VehicleDealer.Mapping
         public MappingProfile()
         {
             //Domain Api to Application Model
+            CreateMap(typeof(QueryResult<>), typeof(QueryResultModel<>));
             CreateMap<Make,MakeModel>();
             CreateMap<Make,KeyValuePairModel>();
             CreateMap<Persistence.DatabaseModel.VehicleModel, KeyValuePairModel>();
