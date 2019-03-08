@@ -9,11 +9,12 @@ import { VehicleService } from '../services/vehicle.service';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
+  private readonly PAGE_SIZE = 3;
   queryResult: any = {};
   vehicles: Vehicle[];
   makes: any[];
   query: any = {
-    pageSize: 3
+    pageSize: this.PAGE_SIZE,
   };
   allVehicles: Vehicle[];
   columns = [
@@ -42,6 +43,7 @@ export class VehicleListComponent implements OnInit {
   }
 
   onFilterChange() {
+    this.query.page = 1;
     this.populateVehicles();
   }
 
@@ -59,8 +61,11 @@ export class VehicleListComponent implements OnInit {
   }
 
   resetFilter() {
-    this.query = {};
-    this.onFilterChange();
+    this.query = {
+      page : 1,
+      pageSize: this.PAGE_SIZE,
+    };
+    this.populateVehicles();
   }
 
   sortBy(columnName) {
