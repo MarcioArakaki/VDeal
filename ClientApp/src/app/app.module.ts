@@ -17,6 +17,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { PaginationComponent } from './shared/pagination/pagination.component';
+import { VehicleViewComponent } from './vehicle-view/vehicle-view.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { PaginationComponent } from './shared/pagination/pagination.component';
     FetchDataComponent,
     VehicleFormComponent,
     VehicleListComponent,
-    PaginationComponent
+    PaginationComponent,
+    VehicleViewComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
