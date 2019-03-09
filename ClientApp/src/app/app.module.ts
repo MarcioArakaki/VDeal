@@ -43,7 +43,8 @@ import { VehicleViewComponent } from './vehicle-view/vehicle-view.component';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'vehicles/new', component: VehicleFormComponent},
       { path: 'vehicles/:id', component: VehicleFormComponent},
-      { path: 'vehicles', component: VehicleListComponent}
+      { path: 'vehicles', component: VehicleListComponent},
+      { path: 'vehicle-page/:id', component: VehicleViewComponent}
     ])
   ],
   providers: [
