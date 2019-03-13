@@ -42,7 +42,8 @@ import { VehicleViewComponent } from './vehicle-view/vehicle-view.component';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'vehicles/new', component: VehicleFormComponent},
-      { path: 'vehicles/:id', component: VehicleFormComponent},
+      { path: 'vehicles/:id', component: VehicleViewComponent},
+      { path: 'vehicles/edit/:id', component: VehicleFormComponent},
       { path: 'vehicles', component: VehicleListComponent},
       { path: 'vehicle-page/:id', component: VehicleViewComponent}
     ])

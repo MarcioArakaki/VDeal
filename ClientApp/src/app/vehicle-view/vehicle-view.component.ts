@@ -9,27 +9,45 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./vehicle-view.component.css']
 })
 export class VehicleViewComponent implements OnInit {
-  vehicle : Vehicle;
+  vehicle: any;
+  vehicleId: number;
 
   constructor(
     private vehicleService: VehicleService,
     private route: ActivatedRoute,
     private router: Router,
-    ) {  
+  ) {
     route.params.subscribe(p => {
-      this.vehicle.id = +p['id'];
-    })  
+      this.vehicleId = +p['id'];
+      if (isNaN(this.vehicleId) || this.vehicle <= 0){
+        router.navigate(['/vehicles']);
+        return;
+      }
+    })
   }
 
   ngOnInit() {
-    this.vehicleService.getVehicle(this.vehicle.id)
-    .subscribe(v => this.vehicle = v);
+    this.vehicleService.getVehicle(this.vehicleId)
+      .subscribe(v => this.vehicle = v, err => {
+        console.log(err);
+      });
   }
 
-  
 
-  
+  savePhotos(photos: FileList) {
 
+  }
 
+  delete() {
+    if (confirm("Are you sure?")) {
+      this.vehicleService.delete(this.vehicle.id)
+        .subscribe(x => {
+          this.router.navigate(['/']);
+        });
+    }
+  }
 
+  redirect(){
+    this.router.navigate(['/vehicles/edit/',this.vehicle.id]);
+  }
 }

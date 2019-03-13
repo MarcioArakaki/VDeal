@@ -1,25 +1,3 @@
-<!-- <ul class="nav nav-tabs" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" href="#vehicle-details">Basics</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#vehicle-photos">Photos</a>
-  </li>
-</ul>
-<div class="tab-content">
-  <div class="tab-pane fade show active" id="vehicle-details" role="tabpanel" aria-labelledby="nav-home-tab">
-    <div class="btn-toolbar">
-        <button type="button" class="btn btn-primary  m-2">Edit</button>
-        <button type="button" class="btn btn-danger m-2">Delete</button>
-    </div>    
-  </div>
-  <div class="tab-pane fade" id="vehicle-photos" role="tabpanel" aria-labelledby="nav-home-tab">
-      <div class="btn-toolbar">
-
-      </div>    
-    </div>
-</div> -->
-
 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" id="vehicle-details-tab" data-toggle="pill" href="#vehicle-details" role="tab"
@@ -30,12 +8,23 @@
       aria-controls="vehicle-photos" aria-selected="false">Photos</a>
   </li>
 </ul>
-<div class="tab-content" id="pills-tabContent">
+<div class="tab-content" *ngIf="vehicle" id="pills-tabContent">
   <div class="tab-pane fade show active" id="vehicle-details" role="tabpanel" aria-labelledby="vehicle-details-tab">
-    <button type="button" class="btn btn-primary  m-2">Edit</button>
-    <button type="button" class="btn btn-danger m-2">Delete</button>
+      <h2>Basics</h2>
+      <ul>
+        <li>Model: {{vehicle.model.name}} </li>
+        <li>Make:{{vehicle.make.name}} </li>
+        <li *ngIf="vehicle.isRegistered">Registered: Yes</li>
+        <li *ngIf="!vehicle.isRegistered">Registered: No</li>
+      </ul>
+      <h2> Features</h2>
+      <ul *ngFor="let feature of vehicle.features">
+        <li>Feature: {{feature.name}} </li>
+      </ul>
+    <button type="button" class="btn btn-primary  m-2" (click)="redirect()">Edit</button>
+    <button *ngIf="vehicle.id" class="btn btn-danger" type="button" (click)="delete()">Delete</button>
   </div>
   <div class="tab-pane fade" id="vehicle-photos" role="tabpanel" aria-labelledby="vehicle-photos-tab">
-    <input type="file" id=file> 
+    <input type="file" id=file (change) = savePhotos($event.target.files) > 
   </div>
 </div>
