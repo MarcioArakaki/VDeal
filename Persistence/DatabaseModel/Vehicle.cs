@@ -10,6 +10,7 @@ namespace VehicleDealer.Persistence.DatabaseModel
     {
         public Vehicle(){
             Features = new Collection<VehicleFeature>();
+            Photos = new Collection<Photo>();
         }
         public int Id { get; set; }
         
@@ -27,9 +28,7 @@ namespace VehicleDealer.Persistence.DatabaseModel
         public DateTime LastUpdate { get; set; }
         public VehicleModel Model { get; set; }
         public int ModelId { get; set; }
-
         public ICollection<VehicleFeature> Features { get; set; }
-        
-
+        public ICollection<Photo> Photos { get; set; }        
     }
 }

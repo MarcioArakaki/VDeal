@@ -11,6 +11,7 @@ namespace VehicleDealer.Mapping
         public MappingProfile()
         {
             //Domain Api to Application Model
+            CreateMap<Photo,PhotoModel>();
             CreateMap(typeof(QueryResult<>), typeof(QueryResultModel<>));
             CreateMap<Make,MakeModel>();
             CreateMap<Make,KeyValuePairModel>();
