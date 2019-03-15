@@ -12,6 +12,7 @@ using VehicleDealer.Persistence.DataAbstraction;
 using VehicleDealer.Persistence.DataAbstraction.Interfaces;
 using VehicleDealer.Persistence.Repositories;
 using VehicleDealer.Persistence.Repositories.Interfaces;
+using VehicleDealer.Settings;
 
 namespace VehicleDealer
 {
@@ -27,6 +28,9 @@ namespace VehicleDealer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {   
+            //Settings
+            services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
+
             //Dependency Injection
             services.AddScoped<IVehicleRepository,VehicleRepository>();
             services.AddScoped<IUnitOfWork,UnitOfWork>();
