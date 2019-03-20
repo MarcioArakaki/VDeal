@@ -1,7 +1,9 @@
+import { ProgressService } from './../services/progress.service';
 import { VehicleService } from './../services/vehicle.service';
 import { Vehicle } from './../models/vehicle';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { PhotoService } from '../services/photo.service';
 
 @Component({
   selector: 'app-vehicle-view',
@@ -9,11 +11,15 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./vehicle-view.component.css']
 })
 export class VehicleViewComponent implements OnInit {
+  @ViewChild('fileInput') fileInput: ElementRef;
   vehicle: any;
   vehicleId: number;
+  photos: any;
 
   constructor(
     private vehicleService: VehicleService,
+    private photoService: PhotoService,
+    private progressService: ProgressService,
     private route: ActivatedRoute,
     private router: Router,
   ) {
@@ -31,10 +37,22 @@ export class VehicleViewComponent implements OnInit {
       .subscribe(v => this.vehicle = v, err => {
         console.log(err);
       });
+
+      this.getPhotos();
   }
 
 
-  savePhotos(photos: FileList) {
+  uploadPhoto() {  
+    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    debugger;
+    this.progressService.uploadProgress
+      .subscribe(progress => console.log(progress));
+    
+    this.photoService.upload(this.vehicleId,nativeElement.files[0])
+      .subscribe(p => {
+        this.photos.push(p);
+      });
+
 
   }
 
@@ -45,6 +63,13 @@ export class VehicleViewComponent implements OnInit {
           this.router.navigate(['/']);
         });
     }
+  }
+
+  getPhotos(){
+    this.photoService.getPhotos(this.vehicleId)
+      .subscribe(p => {
+        this.photos = p;
+      })
   }
 
   redirect(){

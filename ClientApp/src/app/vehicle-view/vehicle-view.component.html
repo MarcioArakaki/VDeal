@@ -10,21 +10,23 @@
 </ul>
 <div class="tab-content" *ngIf="vehicle" id="pills-tabContent">
   <div class="tab-pane fade show active" id="vehicle-details" role="tabpanel" aria-labelledby="vehicle-details-tab">
-      <h2>Basics</h2>
-      <ul>
-        <li>Model: {{vehicle.model.name}} </li>
-        <li>Make:{{vehicle.make.name}} </li>
-        <li *ngIf="vehicle.isRegistered">Registered: Yes</li>
-        <li *ngIf="!vehicle.isRegistered">Registered: No</li>
-      </ul>
-      <h2> Features</h2>
-      <ul *ngFor="let feature of vehicle.features">
-        <li>Feature: {{feature.name}} </li>
-      </ul>
+    <h2>Basics</h2>
+    <ul>
+      <li>Model: {{vehicle.model.name}} </li>
+      <li>Make:{{vehicle.make.name}} </li>
+      <li *ngIf="vehicle.isRegistered">Registered: Yes</li>
+      <li *ngIf="!vehicle.isRegistered">Registered: No</li>
+    </ul>
+    <h2> Features</h2>
+    <ul *ngFor="let feature of vehicle.features">
+      <li>Feature: {{feature.name}} </li>
+    </ul>
     <button type="button" class="btn btn-primary  m-2" (click)="redirect()">Edit</button>
     <button *ngIf="vehicle.id" class="btn btn-danger" type="button" (click)="delete()">Delete</button>
   </div>
   <div class="tab-pane fade" id="vehicle-photos" role="tabpanel" aria-labelledby="vehicle-photos-tab">
-    <input type="file" id=file (change) = savePhotos($event.target.files) > 
+    <h2>Photos</h2>    
+    <input type="file" id=file (change)="uploadPhoto()" #fileInput>
+    <img *ngFor="let photo of photos" src="/uploads/{{photo.fileName}}" class="img-thumbnail">
   </div>
 </div>

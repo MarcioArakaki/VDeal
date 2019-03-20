@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,8 +25,10 @@ namespace VehicleDealer.Controllers
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
         private readonly PhotoSettings photoSettings;
-        public PhotosController(IHostingEnvironment host, IVehicleRepository vehicleRepository, IUnitOfWork unitOfWork, IMapper mapper, IOptionsSnapshot<PhotoSettings> options)
+        private readonly IPhotoRepository repository;
+        public PhotosController(IHostingEnvironment host, IVehicleRepository vehicleRepository, IPhotoRepository repository, IUnitOfWork unitOfWork, IMapper mapper, IOptionsSnapshot<PhotoSettings> options)
         {
+            this.repository = repository;
             this.photoSettings = options.Value;
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
@@ -42,7 +46,7 @@ namespace VehicleDealer.Controllers
             if (file == null) return BadRequest("Null file");
             if (file.Length == 0) return BadRequest("Empty file");
             if (file.Length > photoSettings.MaxBytes) return BadRequest("File too big");
-            if (photoSettings.IsSupported(file.FileName)) return BadRequest("File format not supported");
+            if (!photoSettings.IsSupported(file.FileName)) return BadRequest("File format not supported");
 
             var uploadFolderPath = Path.Combine(host.WebRootPath, "uploads");
             if (!Directory.Exists(uploadFolderPath))
@@ -65,6 +69,14 @@ namespace VehicleDealer.Controllers
 
             return Ok(mapper.Map<Photo, PhotoModel>(photo));
 
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<PhotoModel>> GetPhotosOfVehicle(int vehicleId)
+        {
+            var photos = await this.repository.GetPhotosOfVehicleAsync(vehicleId);
+            
+            return photos.Select(p => mapper.Map<Photo,PhotoModel>(p));
         }
     }
 }
