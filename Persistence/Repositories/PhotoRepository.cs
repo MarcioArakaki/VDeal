@@ -16,7 +16,17 @@ namespace VehicleDealer.Persistence.Repositories
         }
         public async Task<IEnumerable<Photo>> GetPhotosOfVehicleAsync(int vehicleId)
         {
-           return await this.context.Photos.Where(p => p.VehicleId == vehicleId).ToListAsync();
+            return await this.context.Photos.Where(p => p.VehicleId == vehicleId).ToListAsync();
+        }
+
+        public void RemovePhoto(Photo photo)
+        {
+            this.context.Photos.Remove(photo);
+        }
+
+        public Task<Photo> GetPhoto(int id)
+        {
+           return this.context.Photos.FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }

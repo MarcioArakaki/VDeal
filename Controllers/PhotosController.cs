@@ -75,8 +75,25 @@ namespace VehicleDealer.Controllers
         public async Task<IEnumerable<PhotoModel>> GetPhotosOfVehicle(int vehicleId)
         {
             var photos = await this.repository.GetPhotosOfVehicleAsync(vehicleId);
-            
-            return photos.Select(p => mapper.Map<Photo,PhotoModel>(p));
+
+            return photos.Select(p => mapper.Map<Photo, PhotoModel>(p));
         }
+
+        [HttpDelete("/api/vehicles/photos/{photoId}")]
+        public async Task<IActionResult> RemovePhoto(int photoId)
+        {
+            var photo = await this.repository.GetPhoto(photoId);
+            this.repository.RemovePhoto(photo);
+
+            var uploadFolderPath = Path.Combine(host.WebRootPath, "uploads");
+            var filePath = Path.Combine(uploadFolderPath, photo.FileName);
+                      
+            if(System.IO.File.Exists(filePath))
+                System.IO.File.Delete(filePath);
+
+            await unitOfWork.SaveAsync();
+            return Ok("File succesfully deleted");
+        }
+        
     }
 }

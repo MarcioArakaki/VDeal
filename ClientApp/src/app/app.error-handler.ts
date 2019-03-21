@@ -10,6 +10,7 @@ export class AppErrorHandler implements ErrorHandler{
     handleError(error: any): void{
         this.ngZone.run(() => {
             this.toastr.error('Crazy error','Error');
+            console.log(error);
         });
     }
 }

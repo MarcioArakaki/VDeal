@@ -44,7 +44,6 @@ export class VehicleViewComponent implements OnInit {
 
   uploadPhoto() {  
     var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
-    debugger;
     this.progressService.uploadProgress
       .subscribe(progress => console.log(progress));
     

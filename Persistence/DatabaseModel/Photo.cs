@@ -10,7 +10,6 @@ namespace VehicleDealer.Persistence.DatabaseModel
         [StringLength(255)]
         public string FileName { get; set; }
 
-        public int VehicleId { get; set; }
-        
+        public int VehicleId { get; set; }        
     }
 }

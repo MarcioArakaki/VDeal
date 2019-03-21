@@ -1,3 +1,4 @@
+import { BrowserXhr } from '@angular/http';
 import { AppErrorHandler } from './app.error-handler';
 
 import { VehicleService } from './services/vehicle.service';
@@ -18,6 +19,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { PaginationComponent } from './shared/pagination/pagination.component';
 import { VehicleViewComponent } from './vehicle-view/vehicle-view.component';
+import { PhotoService } from './services/photo.service';
+import { ProgressService, BrowserXhrWithProgress } from './services/progress.service';
+import { NgProgressModule} from '@ngx-progressbar/core';
+import { NgProgressHttpModule } from '@ngx-progressbar/http';
+
+
 
 @NgModule({
   declarations: [
@@ -36,6 +43,8 @@ import { VehicleViewComponent } from './vehicle-view/vehicle-view.component';
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    NgProgressModule,
+    NgProgressHttpModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot([
       { path: '',redirectTo:'vehicles', pathMatch: 'full' },
@@ -50,7 +59,12 @@ import { VehicleViewComponent } from './vehicle-view/vehicle-view.component';
   ],
   providers: [
     {provide: ErrorHandler, useClass: AppErrorHandler},
-    VehicleService
+    {provide: BrowserXhr, useClass: BrowserXhrWithProgress},
+    {provide: BrowserXhr, useClass: BrowserXhrWithProgress},
+
+    VehicleService,
+    PhotoService,
+    ProgressService,    
   ],
   bootstrap: [AppComponent]
 })

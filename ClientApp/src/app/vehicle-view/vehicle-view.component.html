@@ -25,7 +25,8 @@
     <button *ngIf="vehicle.id" class="btn btn-danger" type="button" (click)="delete()">Delete</button>
   </div>
   <div class="tab-pane fade" id="vehicle-photos" role="tabpanel" aria-labelledby="vehicle-photos-tab">
-    <h2>Photos</h2>    
+    <h2>Photos</h2>   
+    <ng-progress></ng-progress>
     <input type="file" id=file (change)="uploadPhoto()" #fileInput>
     <img *ngFor="let photo of photos" src="/uploads/{{photo.fileName}}" class="img-thumbnail">
   </div>

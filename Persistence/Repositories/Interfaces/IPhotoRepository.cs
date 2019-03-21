@@ -7,5 +7,7 @@ namespace VehicleDealer.Persistence.Repositories.Interfaces
     public interface IPhotoRepository
     {
         Task<IEnumerable<Photo>> GetPhotosOfVehicleAsync(int vehicleId);
+        void RemovePhoto(Photo photo);
+        Task<Photo> GetPhoto(int id);
     }
 }
