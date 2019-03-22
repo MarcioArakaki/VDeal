@@ -45,8 +45,8 @@ namespace VehicleDealer.Controllers
 
             if (file == null) return BadRequest("Null file");
             if (file.Length == 0) return BadRequest("Empty file");
-            if (file.Length > photoSettings.MaxBytes) return BadRequest("File too big");
             if (!photoSettings.IsSupported(file.FileName)) return BadRequest("File format not supported");
+            if (file.Length > photoSettings.MaxBytes) return BadRequest("File too big");
 
             var uploadFolderPath = Path.Combine(host.WebRootPath, "uploads");
             if (!Directory.Exists(uploadFolderPath))

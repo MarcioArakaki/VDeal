@@ -4,6 +4,7 @@ import { Vehicle } from './../models/vehicle';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PhotoService } from '../services/photo.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-vehicle-view',
@@ -17,6 +18,7 @@ export class VehicleViewComponent implements OnInit {
   photos: any;
 
   constructor(
+    private toastr: ToastrService,
     private vehicleService: VehicleService,
     private photoService: PhotoService,
     private progressService: ProgressService,
@@ -25,7 +27,7 @@ export class VehicleViewComponent implements OnInit {
   ) {
     route.params.subscribe(p => {
       this.vehicleId = +p['id'];
-      if (isNaN(this.vehicleId) || this.vehicle <= 0){
+      if (isNaN(this.vehicleId) || this.vehicle <= 0) {
         router.navigate(['/vehicles']);
         return;
       }
@@ -38,21 +40,24 @@ export class VehicleViewComponent implements OnInit {
         console.log(err);
       });
 
-      this.getPhotos();
+    this.getPhotos();
   }
 
 
-  uploadPhoto() {  
-    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+  uploadPhoto() {
     this.progressService.uploadProgress
       .subscribe(progress => console.log(progress));
-    
-    this.photoService.upload(this.vehicleId,nativeElement.files[0])
+
+    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    var file = nativeElement.files[0];
+    nativeElement.value = '';
+    this.photoService.upload(this.vehicleId, file)
       .subscribe(p => {
         this.photos.push(p);
+      }, error => {
+        debugger;
+        this.toastr.error(error.error, 'Error');
       });
-
-
   }
 
   delete() {
@@ -64,14 +69,14 @@ export class VehicleViewComponent implements OnInit {
     }
   }
 
-  getPhotos(){
+  getPhotos() {
     this.photoService.getPhotos(this.vehicleId)
       .subscribe(p => {
         this.photos = p;
       })
   }
 
-  redirect(){
-    this.router.navigate(['/vehicles/edit/',this.vehicle.id]);
+  redirect() {
+    this.router.navigate(['/vehicles/edit/', this.vehicle.id]);
   }
 }
