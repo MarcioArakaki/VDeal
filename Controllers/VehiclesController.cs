@@ -10,6 +10,7 @@ using VehicleDealer.Persistence.Repositories.Interfaces;
 using VehicleDealer.Persistence.DataAbstraction.Interfaces;
 using VehicleDealer.ApplicationModels;
 using VehicleModel = VehicleDealer.ApplicationModels.VehicleModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace VehicleDealer.Controllers
 {
@@ -31,6 +32,7 @@ namespace VehicleDealer.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateVehicle([FromBody] ApplicationModels.SaveVehicleModel vehicleModel)
         {
             if (!ModelState.IsValid)
@@ -51,6 +53,7 @@ namespace VehicleDealer.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody]ApplicationModels.SaveVehicleModel vehicleModel)
         {
             if (!ModelState.IsValid)
@@ -74,6 +77,7 @@ namespace VehicleDealer.Controllers
 
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
             if (!ModelState.IsValid)

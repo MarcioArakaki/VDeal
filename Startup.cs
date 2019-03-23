@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,14 +28,14 @@ namespace VehicleDealer
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {   
+        {
             //Settings
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
 
             //Dependency Injection
-            services.AddScoped<IVehicleRepository,VehicleRepository>();
-            services.AddScoped<IPhotoRepository,PhotoRepository>();
-            services.AddScoped<IUnitOfWork,UnitOfWork>();
+            services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -44,6 +45,18 @@ namespace VehicleDealer
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
+            });
+
+            //Auth0
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://vdeal.auth0.com/";
+                options.Audience = "https://api.vdeal.com";
             });
         }
 
@@ -64,6 +77,9 @@ namespace VehicleDealer
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            // 2. Enable authentication middleware
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
