@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import { Vehicle } from './../models/vehicle';
 import { Component, OnInit } from '@angular/core';
 import { SaveVehicle } from '../models/vehicle';
@@ -27,14 +28,18 @@ export class VehicleListComponent implements OnInit {
 
   constructor(
     private vehicleService: VehicleService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
 
     this.vehicleService.getMakes()
       .subscribe(makes => this.makes = makes);
-
+      
     this.populateVehicles();
+
+    //DELETE THIS LATER
+    this.authService.login();
   }
 
   private populateVehicles() {

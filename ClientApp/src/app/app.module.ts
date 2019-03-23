@@ -1,3 +1,4 @@
+import { AuthService } from './services/auth.service';
 import { BrowserXhr } from '@angular/http';
 import { AppErrorHandler } from './app.error-handler';
 
@@ -61,7 +62,7 @@ import { NgProgressHttpModule } from '@ngx-progressbar/http';
     {provide: ErrorHandler, useClass: AppErrorHandler},
     {provide: BrowserXhr, useClass: BrowserXhrWithProgress},
     {provide: BrowserXhr, useClass: BrowserXhrWithProgress},
-
+    AuthService,
     VehicleService,
     PhotoService,
     ProgressService,    
