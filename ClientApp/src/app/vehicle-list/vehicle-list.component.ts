@@ -39,7 +39,7 @@ export class VehicleListComponent implements OnInit {
     this.populateVehicles();
 
     //DELETE THIS LATER
-    this.authService.login();
+    // this.authService.login();
   }
 
   private populateVehicles() {
