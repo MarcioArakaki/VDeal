@@ -11,6 +11,9 @@
           <li class="nav-item" [routerLinkActive]='["link-active"]' (click)="auth.isAuthenticated() ?  auth.logout() : auth.login()">
             <a class="nav-link text-dark" [routerLink]='["/"]'>{{auth.isAuthenticated() ? 'Logout':'Login'}}</a>
           </li>       
+          <li class="nav-item" [routerLinkActive]='["link-active"]' (click)="printUser()">
+            <a class="nav-link text-dark" [routerLink]='["/"]'>{{auth.isAuthenticated() ? 'Logoutp':'Loginp'}}</a>
+          </li>       
           <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
             <a class="nav-link text-dark" [routerLink]='["/"]'>Home</a>
           </li>

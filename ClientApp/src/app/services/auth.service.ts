@@ -1,5 +1,5 @@
-// src/app/auth/auth.service.ts
 
+// src/app/auth/auth.service.ts
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
@@ -10,13 +10,14 @@ export class AuthService {
   private _idToken: string;
   private _accessToken: string;
   private _expiresAt: number;
+  private userProfile: any;
 
   auth0 = new auth0.WebAuth({
     clientID: 'X7WBO92Dg5WKw1q3IeNzc3C1MXTrZtzO',
     domain: 'vdeal.auth0.com',
     responseType: 'token id_token',
     redirectUri: 'https://localhost:5001/vehicles',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
   constructor(public router: Router) {
@@ -59,6 +60,7 @@ export class AuthService {
     this._accessToken = authResult.accessToken;
     this._idToken = authResult.idToken;
     this._expiresAt = expiresAt;
+    console.log(authResult);
   }
 
   public logout(): void {
@@ -88,4 +90,25 @@ export class AuthService {
     // access token's expiry time
     return new Date().getTime() < this._expiresAt;
   }
+
+  public getProfile(cb): void {
+    if (!this._accessToken) {
+      throw new Error('Access Token must exist to fetch profile');
+    }
+  
+    const self = this;
+    this.auth0.client.userInfo(this._accessToken, (err, profile) => {
+      if (profile) {
+        self.userProfile = profile;
+      }
+      cb(err, profile);
+    });
+  }
+
+  getRoles(){
+    this.auth0.client.
+  }
+
+
+
 }

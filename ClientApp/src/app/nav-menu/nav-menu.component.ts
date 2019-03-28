@@ -20,4 +20,10 @@ export class NavMenuComponent {
     this.isExpanded = !this.isExpanded;
   }
 
+  printUser(){
+    this.auth.getProfile((err, profile) => {
+      console.log(profile);
+    });
+  }
+
 }
