@@ -105,9 +105,6 @@ export class AuthService {
     });
   }
 
-  getRoles(){
-    this.auth0.client.
-  }
 
 
 
