@@ -1,5 +1,3 @@
-
-// src/app/auth/auth.service.ts
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
@@ -10,7 +8,10 @@ export class AuthService {
   private _idToken: string;
   private _accessToken: string;
   private _expiresAt: number;
+  private _role: string;
   private userProfile: any;
+
+
 
   auth0 = new auth0.WebAuth({
     clientID: 'X7WBO92Dg5WKw1q3IeNzc3C1MXTrZtzO',
@@ -24,6 +25,8 @@ export class AuthService {
     this._idToken = '';
     this._accessToken = '';
     this._expiresAt = 0;
+    this._role = '';
+  
   }
 
   get accessToken(): string {
@@ -60,6 +63,8 @@ export class AuthService {
     this._accessToken = authResult.accessToken;
     this._idToken = authResult.idToken;
     this._expiresAt = expiresAt;
+    //var decodedToken = new JwtHelper(authResult.idToken);
+    //this._role = decodedToken['decodedToken'];
     console.log(authResult);
   }
 
@@ -104,6 +109,7 @@ export class AuthService {
       cb(err, profile);
     });
   }
+
 
 
 
