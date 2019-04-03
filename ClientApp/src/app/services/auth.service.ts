@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Profile } from 'selenium-webdriver/firefox';
 
 @Injectable()
 export class AuthService {
@@ -10,9 +11,7 @@ export class AuthService {
   private _accessToken: string;
   private _expiresAt: number;
   private _roles: string[] = [];
-  private userProfile: any;
-
-
+  private _userProfile: any;
 
   auth0 = new auth0.WebAuth({
     clientID: 'X7WBO92Dg5WKw1q3IeNzc3C1MXTrZtzO',
@@ -26,6 +25,8 @@ export class AuthService {
     this._idToken = '';
     this._accessToken = '';
     this._expiresAt = 0;
+    this.getAuthInfo();
+    this.getUserInfo();
   }
 
   get accessToken(): string {
@@ -54,18 +55,45 @@ export class AuthService {
   }
 
   private localLogin(authResult): void {
-    // Set isLoggedIn flag in localStorage
-    localStorage.setItem('isLoggedIn', 'true');
+    this.saveAuthInformation(authResult);
+    this.getUserInfo();
+  }
+
+  public saveAuthInformation(authResult) {
     // Set the time that the access token will expire at
     const expiresAt = (authResult.expiresIn * 1000) + new Date().getTime();
     this._accessToken = authResult.accessToken;
     this._idToken = authResult.idToken;
     this._expiresAt = expiresAt;
+
+    // Set isLoggedIn flag in localStorage
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('token', this._idToken);
+    localStorage.setItem('accessToken', this._accessToken);
+    localStorage.setItem('expiresAt', this._expiresAt.toString());
+    this.getProfile((err, profile) => {
+      this._userProfile = profile;
+    });
+  }
+
+  public getUserInfo() {
+    var token = localStorage.getItem('token');
+    if (!token)
+      return;
+
     var jwtHelper = new JwtHelperService();
-    var decodedToken = jwtHelper.decodeToken(authResult.idToken);
+    var decodedToken = jwtHelper.decodeToken(token);
     this._roles = decodedToken['https://api.vdeal.com/roles'];
-    console.log("x");
-    console.log(this._roles);
+  }
+
+  public getAuthInfo() {
+    var token = localStorage.getItem('token');
+    if (!token)
+      return;
+
+    this._accessToken = localStorage.getItem('accessToken');
+    this._idToken = localStorage.getItem('token');
+    this._expiresAt = parseInt(localStorage.getItem('expiresAt'));
   }
 
   public logout(): void {
@@ -96,7 +124,7 @@ export class AuthService {
     return new Date().getTime() < this._expiresAt;
   }
 
-  public isInRole(role: string){
+  public isInRole(role: string) {
     //TODO: Prevent infinite loop here
     return this._roles.indexOf(role.toLowerCase()) > -1;
   }
@@ -109,7 +137,7 @@ export class AuthService {
     const self = this;
     this.auth0.client.userInfo(this._accessToken, (err, profile) => {
       if (profile) {
-        self.userProfile = profile;
+        self._userProfile = profile;
       }
       cb(err, profile);
     });

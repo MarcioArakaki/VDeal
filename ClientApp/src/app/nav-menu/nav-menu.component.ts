@@ -19,11 +19,4 @@ export class NavMenuComponent {
   toggle() {
     this.isExpanded = !this.isExpanded;
   }
-
-  printUser(){
-    this.auth.getProfile((err, profile) => {
-      console.log(profile);
-    });
-  }
-
 }
