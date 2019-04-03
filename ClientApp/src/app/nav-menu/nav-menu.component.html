@@ -10,10 +10,7 @@
         <ul class="navbar-nav flex-grow">
           <li class="nav-item" [routerLinkActive]='["link-active"]' (click)="auth.isAuthenticated() ?  auth.logout() : auth.login()">
             <a class="nav-link text-dark" [routerLink]='["/"]'>{{auth.isAuthenticated() ? 'Logout':'Login'}}</a>
-          </li>       
-          <li class="nav-item" [routerLinkActive]='["link-active"]' (click)="printUser()">
-            <a class="nav-link text-dark" [routerLink]='["/"]'>{{auth.isAuthenticated() ? 'Logoutp':'Loginp'}}</a>
-          </li>       
+          </li>             
           <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
             <a class="nav-link text-dark" [routerLink]='["/"]'>Home</a>
           </li>
@@ -22,6 +19,9 @@
           </li>
           <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
             <a class="nav-link text-dark" [routerLink]='["/vehicles"]'>Vehicles</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]='["link-active"]' *ngIf="auth.isInRole('Admin')">
+            <a class="nav-link text-dark" [routerLink]='["/vehicles"]'>Admin</a>
           </li>
         </ul>
       </div>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable()
 export class AuthService {
@@ -8,7 +9,7 @@ export class AuthService {
   private _idToken: string;
   private _accessToken: string;
   private _expiresAt: number;
-  private _role: string;
+  private _roles: string[] = [];
   private userProfile: any;
 
 
@@ -25,8 +26,6 @@ export class AuthService {
     this._idToken = '';
     this._accessToken = '';
     this._expiresAt = 0;
-    this._role = '';
-  
   }
 
   get accessToken(): string {
@@ -38,7 +37,6 @@ export class AuthService {
   }
 
   public login(): void {
-    debugger;
     this.auth0.authorize();
   }
 
@@ -63,9 +61,11 @@ export class AuthService {
     this._accessToken = authResult.accessToken;
     this._idToken = authResult.idToken;
     this._expiresAt = expiresAt;
-    //var decodedToken = new JwtHelper(authResult.idToken);
-    //this._role = decodedToken['decodedToken'];
-    console.log(authResult);
+    var jwtHelper = new JwtHelperService();
+    var decodedToken = jwtHelper.decodeToken(authResult.idToken);
+    this._roles = decodedToken['https://api.vdeal.com/roles'];
+    console.log("x");
+    console.log(this._roles);
   }
 
   public logout(): void {
@@ -96,11 +96,16 @@ export class AuthService {
     return new Date().getTime() < this._expiresAt;
   }
 
+  public isInRole(role: string){
+    //TODO: Prevent infinite loop here
+    return this._roles.indexOf(role.toLowerCase()) > -1;
+  }
+
   public getProfile(cb): void {
     if (!this._accessToken) {
       throw new Error('Access Token must exist to fetch profile');
     }
-  
+
     const self = this;
     this.auth0.client.userInfo(this._accessToken, (err, profile) => {
       if (profile) {
