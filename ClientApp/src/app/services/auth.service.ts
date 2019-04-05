@@ -101,8 +101,14 @@ export class AuthService {
     this._accessToken = '';
     this._idToken = '';
     this._expiresAt = 0;
-    // Remove isLoggedIn flag from localStorage
+    this._roles = [];
+    this._userProfile = "";
+
+    // Remove data from localStorage
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('expiresAt');
     // Go back to the home route
     this.router.navigate(['/']);
   }
@@ -127,6 +133,15 @@ export class AuthService {
   public isInRole(role: string) {
     //TODO: Prevent infinite loop here
     return this._roles.indexOf(role.toLowerCase()) > -1;
+  }
+
+  public userHasRoles(roles: string[]){
+    for(var role of roles){
+      var result = this.isInRole(role);
+      if(result)
+        return true;
+    }
+    return false;
   }
 
   public getProfile(cb): void {

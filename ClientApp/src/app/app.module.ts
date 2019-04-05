@@ -1,3 +1,5 @@
+import { RoleGuardService } from './services/role.guard.service';
+import { AuthGuardService } from './services/auth.guard.service';
 import { AuthService } from './services/auth.service';
 import { BrowserXhr } from '@angular/http';
 import { AppErrorHandler } from './app.error-handler';
@@ -24,6 +26,7 @@ import { PhotoService } from './services/photo.service';
 import { ProgressService, BrowserXhrWithProgress } from './services/progress.service';
 import { NgProgressModule} from '@ngx-progressbar/core';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
+import { AdminComponent } from './admin/admin.component';
 
 
 
@@ -37,7 +40,8 @@ import { NgProgressHttpModule } from '@ngx-progressbar/http';
     VehicleFormComponent,
     VehicleListComponent,
     PaginationComponent,
-    VehicleViewComponent
+    VehicleViewComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -55,7 +59,8 @@ import { NgProgressHttpModule } from '@ngx-progressbar/http';
       { path: 'vehicles/:id', component: VehicleViewComponent},
       { path: 'vehicles/edit/:id', component: VehicleFormComponent},
       { path: 'vehicles', component: VehicleListComponent},
-      { path: 'vehicle-page/:id', component: VehicleViewComponent}
+      { path: 'vehicle-page/:id', component: VehicleViewComponent},
+      { path: 'admin', component: AdminComponent, canActivate: [RoleGuardService], data:{expectedRoles: ['admin']}}      
     ])
   ],
   providers: [
@@ -65,7 +70,8 @@ import { NgProgressHttpModule } from '@ngx-progressbar/http';
     AuthService,
     VehicleService,
     PhotoService,
-    ProgressService,    
+    ProgressService,  
+    RoleGuardService  
   ],
   bootstrap: [AppComponent]
 })
