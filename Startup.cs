@@ -47,6 +47,13 @@ namespace VehicleDealer
                 configuration.RootPath = "ClientApp/dist";
             });
 
+            //Policies
+            services.AddAuthorization(options => {
+                options.AddPolicy("RequireAdminRole", policy => 
+                
+                policy.RequireClaim("https://api.vdeal.com/roles","admin"));
+            });
+
             //Auth0
             services.AddAuthentication(options =>
             {
@@ -58,6 +65,8 @@ namespace VehicleDealer
                 options.Authority = "https://vdeal.auth0.com/";
                 options.Audience = "https://api.vdeal.com";
             });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

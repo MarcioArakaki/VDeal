@@ -113,8 +113,12 @@ namespace VehicleDealer.Controllers
 
         [HttpGet]
         public async Task<QueryResultModel<VehicleModel>> GetVehicles(VehicleQueryModel filterModel)
-        {           
-            var filter = mapper.Map<VehicleQueryModel,VehicleQuery>(filterModel);
+        {
+            var re = Request;
+            var headers = re.Headers;
+            var x = User.Claims;
+
+            var filter = mapper.Map<VehicleQueryModel, VehicleQuery>(filterModel);
             var vehicles = await repository.GetAllVehicles(filter);
 
             var result = mapper.Map<QueryResult<Vehicle>, QueryResultModel<VehicleModel>>(vehicles);

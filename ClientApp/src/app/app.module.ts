@@ -8,7 +8,7 @@ import { VehicleService } from './services/vehicle.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -27,6 +27,7 @@ import { ProgressService, BrowserXhrWithProgress } from './services/progress.ser
 import { NgProgressModule} from '@ngx-progressbar/core';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
 import { AdminComponent } from './admin/admin.component';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 
 
@@ -67,11 +68,12 @@ import { AdminComponent } from './admin/admin.component';
     {provide: ErrorHandler, useClass: AppErrorHandler},
     {provide: BrowserXhr, useClass: BrowserXhrWithProgress},
     {provide: BrowserXhr, useClass: BrowserXhrWithProgress},
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor,multi:true},    
     AuthService,
     VehicleService,
     PhotoService,
     ProgressService,  
-    RoleGuardService  
+    RoleGuardService,
   ],
   bootstrap: [AppComponent]
 })

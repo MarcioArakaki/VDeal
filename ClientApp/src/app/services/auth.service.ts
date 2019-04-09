@@ -158,8 +158,10 @@ export class AuthService {
     });
   }
 
-
-
-
+  getTokenFromLocalStorage(){
+    var token = localStorage.getItem('token');
+    if(token)
+      return token;
+  }
 
 }
