@@ -17,6 +17,7 @@ export class AuthService {
     clientID: 'X7WBO92Dg5WKw1q3IeNzc3C1MXTrZtzO',
     domain: 'vdeal.auth0.com',
     responseType: 'token id_token',
+    audience: 'https://api.vdeal.com',
     redirectUri: 'https://localhost:5001/vehicles',
     scope: 'openid profile'
   });
@@ -65,10 +66,11 @@ export class AuthService {
     this._accessToken = authResult.accessToken;
     this._idToken = authResult.idToken;
     this._expiresAt = expiresAt;
+    console.log(authResult);
 
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('token', this._idToken);
+    localStorage.setItem('token', this.accessToken);
     localStorage.setItem('accessToken', this._accessToken);
     localStorage.setItem('expiresAt', this._expiresAt.toString());
     this.getProfile((err, profile) => {
@@ -128,7 +130,7 @@ export class AuthService {
     // Check whether the current time is past the
     // access token's expiry time
     return new Date().getTime() < this._expiresAt;
-  }
+  } 
 
   public isInRole(role: string) {
     //TODO: Prevent infinite loop here

@@ -112,6 +112,7 @@ namespace VehicleDealer.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<QueryResultModel<VehicleModel>> GetVehicles(VehicleQueryModel filterModel)
         {
             var re = Request;
