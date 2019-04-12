@@ -12,6 +12,7 @@ namespace VehicleDealer.ApplicationModels
         }
         public int Id { get; set; }
 
+
         public ContactModel Contact { get; set; }
         public bool IsRegistered { get; set; }
         public DateTime LastUpdate { get; set; }

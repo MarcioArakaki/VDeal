@@ -71,7 +71,7 @@ export class AuthService {
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
     localStorage.setItem('token', this.accessToken);
-    localStorage.setItem('accessToken', this._accessToken);
+    localStorage.setItem('idToken', this._idToken);
     localStorage.setItem('expiresAt', this._expiresAt.toString());
     this.getProfile((err, profile) => {
       this._userProfile = profile;
@@ -79,7 +79,7 @@ export class AuthService {
   }
 
   public getUserInfo() {
-    var token = localStorage.getItem('token');
+    var token = localStorage.getItem('idToken');
     if (!token)
       return;
 
@@ -94,7 +94,7 @@ export class AuthService {
       return;
 
     this._accessToken = localStorage.getItem('accessToken');
-    this._idToken = localStorage.getItem('token');
+    this._idToken = localStorage.getItem('idToken');
     this._expiresAt = parseInt(localStorage.getItem('expiresAt'));
   }
 
@@ -109,7 +109,7 @@ export class AuthService {
     // Remove data from localStorage
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('token');
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem('idToken');
     localStorage.removeItem('expiresAt');
     // Go back to the home route
     this.router.navigate(['/']);
@@ -133,6 +133,8 @@ export class AuthService {
   } 
 
   public isInRole(role: string) {
+    if(!this._roles)
+      return false;
     //TODO: Prevent infinite loop here
     return this._roles.indexOf(role.toLowerCase()) > -1;
   }
