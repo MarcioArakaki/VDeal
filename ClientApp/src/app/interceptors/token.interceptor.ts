@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 export class TokenInterceptor implements HttpInterceptor {
   constructor(public auth: AuthService) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    debugger;
     request = request.clone({
       setHeaders: {
         Authorization: `Bearer ${this.auth.getTokenFromLocalStorage()}`

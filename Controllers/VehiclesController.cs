@@ -53,7 +53,7 @@ namespace VehicleDealer.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize]
+        [Authorize("RequireAdminRole")]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody]ApplicationModels.SaveVehicleModel vehicleModel)
         {
             if (!ModelState.IsValid)

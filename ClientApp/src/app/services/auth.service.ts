@@ -79,7 +79,7 @@ export class AuthService {
   }
 
   public getUserInfo() {
-    var token = localStorage.getItem('idToken');
+    var token = localStorage.getItem('token');
     if (!token)
       return;
 

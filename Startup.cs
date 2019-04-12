@@ -47,10 +47,18 @@ namespace VehicleDealer
                 configuration.RootPath = "ClientApp/dist";
             });
 
+            //Policies
+            services.AddAuthorization(options => {
+                options.AddPolicy("RequireAdminRole", policy => 
+                
+                policy.RequireClaim("https://api.vdeal.com/roles","admin"));
+            });
+
             //Auth0
             services.AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
             }).AddJwtBearer(options =>
             {
@@ -58,15 +66,7 @@ namespace VehicleDealer
                 options.Audience = "https://api.vdeal.com";
             });
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials()
-                .Build());
-            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -109,8 +109,6 @@ namespace VehicleDealer
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-
-            app.UseCors("CorsPolicy");
         }
     }
 }
