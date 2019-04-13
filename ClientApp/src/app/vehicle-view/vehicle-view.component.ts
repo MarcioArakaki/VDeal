@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import { ProgressService } from './../services/progress.service';
 import { VehicleService } from './../services/vehicle.service';
 import { Vehicle } from './../models/vehicle';
@@ -24,6 +25,7 @@ export class VehicleViewComponent implements OnInit {
     private progressService: ProgressService,
     private route: ActivatedRoute,
     private router: Router,
+    private authService: AuthService
   ) {
     route.params.subscribe(p => {
       this.vehicleId = +p['id'];

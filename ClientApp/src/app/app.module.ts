@@ -56,7 +56,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
       { path: '',redirectTo:'vehicles', pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'vehicles/new', component: VehicleFormComponent},
+      { path: 'vehicles/new', component: VehicleFormComponent, canActivate: [RoleGuardService]},
       { path: 'vehicles/:id', component: VehicleViewComponent},
       { path: 'vehicles/edit/:id', component: VehicleFormComponent},
       { path: 'vehicles', component: VehicleListComponent},

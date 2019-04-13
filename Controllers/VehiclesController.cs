@@ -32,7 +32,7 @@ namespace VehicleDealer.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize("RequireAdminRole")]
         public async Task<IActionResult> CreateVehicle([FromBody] ApplicationModels.SaveVehicleModel vehicleModel)
         {
             if (!ModelState.IsValid)
@@ -77,7 +77,7 @@ namespace VehicleDealer.Controllers
 
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize("RequireAdminRole")]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
             if (!ModelState.IsValid)
@@ -112,7 +112,6 @@ namespace VehicleDealer.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<QueryResultModel<VehicleModel>> GetVehicles(VehicleQueryModel filterModel)
         {
             var re = Request;

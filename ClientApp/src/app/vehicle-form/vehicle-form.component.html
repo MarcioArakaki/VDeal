@@ -1,7 +1,4 @@
 <h1 >{{vehicle.isRegistered ? "Vehicle "+vehicle.id : "New Vehicle"}}</h1>
-<p>
-  {{ vehicle | json}}
-</p>
 <form #form="ngForm" (ngSubmit)="submit()">
   <div class="alert alert-danger" *ngIf="make.touched && !make.valid">Please specify the make.</div>
   <div class="alert alert-danger" *ngIf="model.touched && !model.valid">Please specify the model.</div>

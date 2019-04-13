@@ -37,9 +37,6 @@ export class VehicleListComponent implements OnInit {
       .subscribe(makes => this.makes = makes);
       
     this.populateVehicles();
-
-    //DELETE THIS LATER
-    // this.authService.login();
   }
 
   private populateVehicles() {
