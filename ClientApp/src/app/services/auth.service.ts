@@ -85,7 +85,7 @@ export class AuthService {
 
     var jwtHelper = new JwtHelperService();
     var decodedToken = jwtHelper.decodeToken(token);
-    this._roles = decodedToken['https://api.vdeal.com/roles'];
+    this._roles = decodedToken['https://api.vdeal.com/roles'] || [];
   }
 
   public getAuthInfo() {

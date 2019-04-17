@@ -51,17 +51,11 @@ namespace VehicleDealer.Persistence.Repositories
         {
             var result = new QueryResult<Vehicle>();
             var query = context.Vehicles
-            .Include(v => v.Features)
-                .ThenInclude(vf => vf.Feature)
             .Include(v => v.Model)
                 .ThenInclude(m => m.Make)
             .AsQueryable();
 
-            if (queryObj.MakeId.HasValue)
-                query = query.Where(v => v.Model.MakeId == queryObj.MakeId.Value);
-
-            if (queryObj.ModelId.HasValue)
-                query = query.Where(v => v.ModelId == queryObj.ModelId.Value);
+            query = ApplyFiltering(queryObj, query);
 
             //mapping string to experssion
             var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>()
@@ -75,7 +69,7 @@ namespace VehicleDealer.Persistence.Repositories
             query = query.ApplyOrdering(queryObj, columnsMap);
 
             result.TotalItems = await query.CountAsync();
-            
+
             query = query.ApplyPaging(queryObj);
 
             result.Items = await query.ToListAsync();
@@ -83,6 +77,15 @@ namespace VehicleDealer.Persistence.Repositories
             return result;
         }
 
-    
+        private static IQueryable<Vehicle> ApplyFiltering(VehicleQuery queryObj, IQueryable<Vehicle> query)
+        {
+            if (queryObj.MakeId.HasValue)
+                query = query.Where(v => v.Model.MakeId == queryObj.MakeId.Value);
+
+            if (queryObj.ModelId.HasValue)
+                query = query.Where(v => v.ModelId == queryObj.ModelId.Value);
+            return query;
+        }
+
     }
 }
