@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace VehicleDealer.Persistence.DataAbstraction.Interfaces
+namespace VehicleDealer.Core
 {
     public interface IUnitOfWork
     {

@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using VehicleDealer.Core;
+using VehicleDealer.Core.Repositories;
 using VehicleDealer.Persistence;
 using VehicleDealer.Persistence.DataAbstraction;
-using VehicleDealer.Persistence.DataAbstraction.Interfaces;
 using VehicleDealer.Persistence.Repositories;
-using VehicleDealer.Persistence.Repositories.Interfaces;
 using VehicleDealer.Settings;
 
 namespace VehicleDealer

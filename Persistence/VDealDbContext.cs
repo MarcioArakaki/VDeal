@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using VehicleDealer.Persistence.DatabaseModel;
-
+using VehicleDealer.Core.DomainModel;
 
 namespace VehicleDealer
 {

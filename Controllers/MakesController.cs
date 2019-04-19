@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using VehicleDealer.Persistence;
-using VehicleDealer.Persistence.DatabaseModel;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using AutoMapper;
 using VehicleDealer.ApplicationModels;
+using VehicleDealer.Core.DomainModel;
 
 namespace VehicleDealer.Controllers
 {

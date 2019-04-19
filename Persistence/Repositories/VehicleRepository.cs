@@ -4,9 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using VehicleDealer.Core.DomainModel;
+using VehicleDealer.Core.Repositories;
 using VehicleDealer.Extensions;
-using VehicleDealer.Persistence.DatabaseModel;
-using VehicleDealer.Persistence.Repositories.Interfaces;
 
 namespace VehicleDealer.Persistence.Repositories
 {

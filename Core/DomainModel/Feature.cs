@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace VehicleDealer.Persistence.DatabaseModel
+namespace VehicleDealer.Core.DomainModel
 {
     public class Feature
     {

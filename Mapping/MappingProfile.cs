@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using VehicleDealer.ApplicationModels;
-using VehicleDealer.Persistence.DatabaseModel;
+using VehicleDealer.Core.DomainModel;
+using VehicleModel = VehicleDealer.Core.DomainModel.VehicleModel;
 
 namespace VehicleDealer.Mapping
 {
@@ -15,9 +16,9 @@ namespace VehicleDealer.Mapping
             CreateMap(typeof(QueryResult<>), typeof(QueryResultModel<>));
             CreateMap<Make,MakeModel>();
             CreateMap<Make,KeyValuePairModel>();
-            CreateMap<Persistence.DatabaseModel.VehicleModel, KeyValuePairModel>();
+            CreateMap<VehicleModel, KeyValuePairModel>();
             CreateMap<Feature,KeyValuePairModel>();
-            CreateMap<VehicleDealer.Persistence.DatabaseModel.Vehicle,ApplicationModels.SaveVehicleModel>()
+            CreateMap<Vehicle,ApplicationModels.SaveVehicleModel>()
                 .ForMember(vm => vm.Contact, opt => opt.MapFrom( v => new ContactModel{ Name = v.ContactName, Email = v.ContactEmail, Phone = v.ContactPhone}))
                 .ForMember(vm => vm.Features, opt => opt.MapFrom( v=>  v.Features.Select(f => f.FeatureId)));
             CreateMap<Vehicle, ApplicationModels.VehicleModel>()      
@@ -29,7 +30,7 @@ namespace VehicleDealer.Mapping
 
             //API Application Model to Domain
             CreateMap<VehicleQueryModel,VehicleQuery>();
-            CreateMap<ApplicationModels.SaveVehicleModel, VehicleDealer.Persistence.DatabaseModel.Vehicle>()
+            CreateMap<ApplicationModels.SaveVehicleModel, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
                 .ForMember(v => v.ContactName, opt => opt.MapFrom(vm => vm.Contact.Name))
                 .ForMember(v => v.ContactEmail, opt => opt.MapFrom(vm => vm.Contact.Email))

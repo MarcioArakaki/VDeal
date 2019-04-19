@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using VehicleDealer.Persistence.DatabaseModel;
-using VehicleDealer.Persistence.Repositories.Interfaces;
+using VehicleDealer.Core.DomainModel;
+using VehicleDealer.Core.Repositories;
+
 
 namespace VehicleDealer.Persistence.Repositories
 {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace VehicleDealer.Persistence.DatabaseModel
+namespace VehicleDealer.Core.DomainModel
 {
     public class Vehicle
     {

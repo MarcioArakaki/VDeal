@@ -16,7 +16,7 @@ export class AuthService {
   auth0 = new auth0.WebAuth({
     clientID: 'X7WBO92Dg5WKw1q3IeNzc3C1MXTrZtzO',
     domain: 'vdeal.auth0.com',
-    responseType: 'token id_token',
+    responseType: 'token',
     audience: 'https://api.vdeal.com',
     redirectUri: 'https://localhost:5001/vehicles',
     scope: 'openid profile'

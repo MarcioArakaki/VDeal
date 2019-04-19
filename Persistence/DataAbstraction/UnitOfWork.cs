@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using VehicleDealer.Persistence.DataAbstraction.Interfaces;
-using VehicleDealer.Persistence.DatabaseModel;
+using VehicleDealer.Core;
+using VehicleDealer.Core.DomainModel;
 
 namespace VehicleDealer.Persistence.DataAbstraction
 {

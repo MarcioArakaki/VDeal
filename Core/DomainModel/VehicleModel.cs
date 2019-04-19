@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace VehicleDealer.Persistence.DatabaseModel
+namespace VehicleDealer.Core.DomainModel
 {
     [Table("VehicleModels")]
     public class VehicleModel

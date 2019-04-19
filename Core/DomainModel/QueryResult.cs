@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace VehicleDealer.Persistence.DatabaseModel
+namespace VehicleDealer.Core.DomainModel
 {
     public class QueryResult<T>
     {    

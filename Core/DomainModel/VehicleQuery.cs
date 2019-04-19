@@ -1,6 +1,6 @@
 using VehicleDealer.Extensions;
 
-namespace VehicleDealer.Persistence.DatabaseModel
+namespace VehicleDealer.Core.DomainModel
 {
     public class VehicleQuery : IQueryObject
     {

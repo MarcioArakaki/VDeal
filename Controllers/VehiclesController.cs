@@ -3,14 +3,14 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using VehicleDealer.Persistence;
-using VehicleDealer.Persistence.DatabaseModel;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using VehicleDealer.Persistence.Repositories.Interfaces;
-using VehicleDealer.Persistence.DataAbstraction.Interfaces;
 using VehicleDealer.ApplicationModels;
-using VehicleModel = VehicleDealer.ApplicationModels.VehicleModel;
 using Microsoft.AspNetCore.Authorization;
+using VehicleDealer.Core.Repositories;
+using VehicleDealer.Core;
+using VehicleDealer.Core.DomainModel;
+using VehicleModel = VehicleDealer.Core.DomainModel.VehicleModel;
 
 namespace VehicleDealer.Controllers
 {

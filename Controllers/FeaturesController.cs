@@ -5,8 +5,8 @@ using VehicleDealer.Persistence;
 using Microsoft.EntityFrameworkCore;
 using VehicleDealer.ApplicationModels;
 using AutoMapper;
-using VehicleDealer.Persistence.DatabaseModel;
 using Microsoft.AspNetCore.Authorization;
+using VehicleDealer.Core.DomainModel;
 
 namespace VehicleDealer.Controllers
 {

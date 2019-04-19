@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using VehicleDealer.ApplicationModels;
-using VehicleDealer.Persistence.DataAbstraction.Interfaces;
-using VehicleDealer.Persistence.DatabaseModel;
-using VehicleDealer.Persistence.Repositories.Interfaces;
+using VehicleDealer.Core;
+using VehicleDealer.Core.DomainModel;
+using VehicleDealer.Core.Repositories;
 using VehicleDealer.Settings;
 
 namespace VehicleDealer.Controllers

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using VehicleDealer.Persistence.DatabaseModel;
+using VehicleDealer.Core.DomainModel;
 
 namespace VehicleDealer.ApplicationModels
 {

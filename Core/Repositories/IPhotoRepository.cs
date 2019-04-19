@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using VehicleDealer.Persistence.DatabaseModel;
+using VehicleDealer.Core.DomainModel;
 
-namespace VehicleDealer.Persistence.Repositories.Interfaces
+namespace VehicleDealer.Core.Repositories
 {
     public interface IPhotoRepository
     {
