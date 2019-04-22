@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Profile } from 'selenium-webdriver/firefox';
+import { debug } from 'util';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +16,7 @@ export class AuthService {
   auth0 = new auth0.WebAuth({
     clientID: 'X7WBO92Dg5WKw1q3IeNzc3C1MXTrZtzO',
     domain: 'vdeal.auth0.com',
-    responseType: 'token',
+    responseType: 'token id_token',
     audience: 'https://api.vdeal.com',
     redirectUri: 'https://localhost:5001/vehicles',
     scope: 'openid profile'
@@ -43,6 +43,7 @@ export class AuthService {
   }
 
   public handleAuthentication(): void {
+    debugger;
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
@@ -56,6 +57,7 @@ export class AuthService {
   }
 
   private localLogin(authResult): void {
+    debugger;
     this.saveAuthInformation(authResult);
     this.getUserInfo();
   }
